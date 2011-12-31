@@ -37,7 +37,14 @@ class WhiskeyType(BaseModel):
         coast?  Use this model to build canonical types of whisk(e)y
     '''
     pass
-
+    
+class Enjoying(models.Model):
+    '''
+    An experimental model that represents that state of something being enjoyed
+    '''
+    currently_being_enjoyed = models.BooleanField(default=False)
+    neat = models.BooleanField(default=True) #True whiskey default
+    
 class Whiskey(BaseModel)
     '''
     Represents a single whiskey.
@@ -64,5 +71,5 @@ class Whiskey(BaseModel)
     # state of drinking
     #! NOTE: Do we need to set some sort of expiration
     #! ISSUE #1
-    enjoying = models.BooleanField(null=True)
+    enjoying = models.ForeignKey(Enjoying, null=True)
     own = models.BooleanField(null=True)
