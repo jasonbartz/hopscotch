@@ -1,26 +1,28 @@
 # Standard Django Libraries
-from django import models
+from django.db import models
 
 # Local Django Libraries
 from hopscotch.apps.base import BaseModel
 from hopscotch.apps.geo.models import Location
 
 # Location and Meta Information
+class Distributor(BaseModel):
+    '''
+    Represents the whiskey distributor
+    '''
+    
+    location = models.ForeignKey(Location)
+    
 class Distillery(BaseModel):
     '''
     Represents a place where whiskey is distilled
         Keep in mind, this may not be the same as the distributor
     '''
     
-    location = models.ForeignKey(location)
+    location = models.ForeignKey(Location)
     distributor = models.ForeignKey(Distributor)
     
-class Distributor(BaseModel):
-    '''
-    Represents the whiskey distributor
-    '''
-    
-    location = models.ForeignKey(location)
+
 
 # Whiskey information
 
@@ -45,7 +47,7 @@ class Enjoying(models.Model):
     currently_being_enjoyed = models.BooleanField(default=False)
     neat = models.BooleanField(default=True) #True whiskey default
     
-class Whiskey(BaseModel)
+class Whiskey(BaseModel):
     '''
     Represents a single whiskey.
     '''
@@ -60,16 +62,16 @@ class Whiskey(BaseModel)
     # Exact Date whiskey released to the public
     release_date = models.DateField(null=True, default=None)
     # Manufacturer's description, often listed on the bottle
-    manu_desc = models.Textfield(null=True, blank=True, default='')
+    manu_desc = models.TextField(null=True, blank=True, default='')
     
     ## Personal/rating information
     # Personal description, from experience
-    personal_desc = models.Textfield(null=True, blank=True, default='')
+    personal_desc = models.TextField(null=True, blank=True, default='')
     
-    rating = models.CharField(null=True, blank=True, choices=RATING)
+    rating = models.CharField(null=True, blank=True, max_length=1, choices=RATING)
     
     # state of drinking
     #! NOTE: Do we need to set some sort of expiration
     #! ISSUE #1
     enjoying = models.ForeignKey(Enjoying, null=True)
-    own = models.BooleanField(null=True)
+    own = models.BooleanField()

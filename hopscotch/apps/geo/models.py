@@ -1,5 +1,5 @@
 # Standard Django Libraries
-from django import models
+from django.db import models
 
 # Local Django Libraries
 from hopscotch.apps.base import BaseModel
@@ -14,7 +14,7 @@ class GeographyBase(BaseModel):
     latitude = models.IntegerField()
     longitude = models.IntegerField()
     
-    class Meta
+    class Meta:
         abstract = True
         
 class Country(GeographyBase):
@@ -28,7 +28,7 @@ class Area(GeographyBase):
     A canonical entry that represents a part of a country,
         i.e., a state or province
     '''
-    area_type = models.Charfield(max_length=255)
+    area_type = models.CharField(max_length=255)
     
 class Location(GeographyBase):
     '''

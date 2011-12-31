@@ -5,7 +5,7 @@ A generic library that holds base configurations including
 '''
 
 # Standard Django Libraries
-from django import models
+from django.db import models
 
 class BaseModel(models.Model):
     '''
@@ -17,5 +17,5 @@ class BaseModel(models.Model):
     slug = models.CharField(max_length=100)
     name = models.CharField(max_length=255)
     
-    class Meta
+    class Meta:
         abstract = True
