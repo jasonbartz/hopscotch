@@ -6,3 +6,4 @@ django-tastypie
 
 # utility libraries
 yolk
+ipython==0.11
