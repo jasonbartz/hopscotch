@@ -17,7 +17,7 @@ class Place(BaseModel):
     '''
     Represents a place that makes 
     '''
-    distributor = models.ForeignKey(PlaceType)
+    place_type = models.ForeignKey(PlaceType)
 
 # Information
 
@@ -38,15 +38,15 @@ class Drink(BaseModel):
     '''
     Represents a single drink.
     '''
-    ## Whiskey Information
-    # The canonical name of the whiskey
+    ## Information
+    # The canonical name of the drink
     #   Will be shown on the page
     full_name = models.CharField(max_length=255)
     place = models.ForeignKey(Place)
     drink_type = models.ForeignKey(DrinkType)
     # Actual bottled year, i.e., 1996
     year = models.IntegerField()
-    # Exact Date whiskey released to the public
+    # Exact Date drin released to the public
     release_date = models.DateField(null=True, default=None)
     # Manufacturer's description, often listed on the bottle
     manu_desc = models.TextField(null=True, blank=True, default='')
