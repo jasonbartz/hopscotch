@@ -1,14 +1,12 @@
 # Django Standard Libraries
 from django.contrib import admin
 
-from hopscotch.apps.dram.models import (Whiskey, 
-                                        Distributor, 
-                                        Distillery,
-                                        WhiskeyType,
-                                        Enjoying,)
+from hopscotch.apps.dram.models import (PlaceType, 
+                                        Place, 
+                                        DrinkType,
+                                        Drink,)
 
-admin.site.register(Whiskey)
-admin.site.register(Distributor)
-admin.site.register(Distillery)
-admin.site.register(WhiskeyType)
-admin.site.register(Enjoying)
+admin.site.register(PlaceType)
+admin.site.register(Place)
+admin.site.register(DrinkType)
+admin.site.register(Drink)

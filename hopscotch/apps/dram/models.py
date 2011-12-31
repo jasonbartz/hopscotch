@@ -46,7 +46,7 @@ class Drink(BaseModel):
     drink_type = models.ForeignKey(DrinkType)
     # Actual bottled year, i.e., 1996
     year = models.IntegerField()
-    # Exact Date drin released to the public
+    # Exact Date drink released to the public
     release_date = models.DateField(null=True, default=None)
     # Manufacturer's description, often listed on the bottle
     manu_desc = models.TextField(null=True, blank=True, default='')
