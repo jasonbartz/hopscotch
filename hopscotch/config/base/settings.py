@@ -24,14 +24,17 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'hopscotch.urls'
+ROOT_URLCONF = 'hopscotch.apps.urls'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
     'django.contrib.messages',
+    'grappelli',
     'django.contrib.admin',
-
+    'django.contrib.staticfiles',
+    
+    # hopscotch apps
+    'hopscotch.apps.dram',
 )
