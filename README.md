@@ -3,10 +3,7 @@
 ## Apps
 
 ### Dram
-An app that stores scotch and whiskey information
-
-### Hops
-An app that stores beer information
+An app that stores drink information
 
 
 #### version 
