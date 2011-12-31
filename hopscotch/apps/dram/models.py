@@ -31,6 +31,12 @@ RATING = (
     ('4','Delicious',),
     ('5','Must have',),
 )
+class WhiskeyType(BaseModel):
+    '''
+    Is it a real Kentucky Bourbon, or something from the Islay
+        coast?  Use this model to build canonical types of whisk(e)y
+    '''
+    pass
 
 class Whiskey(BaseModel)
     '''
@@ -41,6 +47,7 @@ class Whiskey(BaseModel)
     #   Will be shown on the page
     full_name = models.CharField(max_length=255)
     distillery = models.ForeignKey(Distillery)
+    whiskey_type = models.ForeignKey(WhiskeyType)
     # Actual bottled year, i.e., 1996
     year = models.IntegerField()
     # Exact Date whiskey released to the public
