@@ -1,2 +1,5 @@
 # Database
 postgresql >= 9.0.4
+
+# Logic
+python >= 2.6
