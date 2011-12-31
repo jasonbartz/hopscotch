@@ -37,5 +37,4 @@ INSTALLED_APPS = (
     
     # hopscotch apps
     'hopscotch.apps.dram',
-    'hopscotch.apps.geo',
 )
