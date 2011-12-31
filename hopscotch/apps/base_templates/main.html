@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{% block title %}{% endblock %}| HopScotch!</title>
+{% block css %}
+    {#twitter bootstrap styles #}
+    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
+    <style type="text/css">
+    </style>
+{% endblock %}
+{% block js %}
+    {# Jquery #}
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    
+    </script>
+{% endblock %}
+
+{% block extra_css %}{% endblock %}
+{% block extra_js %}{% endblock %}
+</head>
+
+<body>
+<div id="wrapper">
+    <div id="header">{% block header %}{% endblock %}</div>
+    
+    <div id="content">{% block content %}{% endblock %}</div>
+    
+    <div id="footer">{% block footer %}{% endblock %}</div>
+</div>
+</body>
+
+</html>
