@@ -13,6 +13,7 @@ class Distillery(BaseModel):
     '''
     
     location = models.ForeignKey(location)
+    distributor = models.ForeignKey(Distributor)
     
 class Distributor(BaseModel):
     '''
@@ -22,7 +23,6 @@ class Distributor(BaseModel):
     location = models.ForeignKey(location)
 
 # Whiskey information
-
 
 RATING = (
     ('1','Don\'t try',),
@@ -40,13 +40,11 @@ class Whiskey(BaseModel)
     # The canonical name of the whiskey
     #   Will be shown on the page
     full_name = models.CharField(max_length=255)
-    
+    distillery = models.ForeignKey(Distillery)
     # Actual bottled year, i.e., 1996
     year = models.IntegerField()
-    
     # Exact Date whiskey released to the public
     release_date = models.DateField(null=True, default=None)
-
     # Manufacturer's description, often listed on the bottle
     manu_desc = models.Textfield(null=True, blank=True, default='')
     
