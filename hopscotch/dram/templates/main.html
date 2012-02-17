@@ -2,20 +2,11 @@
 <html>
 <head>
 <title>{% block title %}{% endblock %}| HopScotch!</title>
-{% block css %}
-    {#twitter bootstrap styles #}
-    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
-    <style type="text/css">
-    </style>
-{% endblock %}
-{% block js %}
-    {# Jquery #}
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript">
-    
-    </script>
-{% endblock %}
-
+{% block stylesheets %}
+    {% if css %}{% for style in css %}
+            <link rel="stylesheet" href="{{ static_url }}{{ style }}" />
+        {% endfor %}{% endif %}
+{% endblock stylesheets %}
 {% block extra_css %}{% endblock %}
 {% block extra_js %}{% endblock %}
 </head>
@@ -28,6 +19,12 @@
     
     <div id="footer">{% block footer %}{% endblock %}</div>
 </div>
+
+{% block javascript %}
+    {% if js %}{% for script in js %}
+            <script type="text/javascript" src="{{ static_url }}{{ script }}"></script>
+        {% endfor %}{% endif %}
+{% endblock javascript %}
 </body>
 
 </html>
