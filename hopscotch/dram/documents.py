@@ -1,25 +1,4 @@
-# Standard Django Libraries
-from django.db import models
-
-# Local Django Libraries
-from hopscotch.apps.base import BaseModel
-
-# Location and Meta Information
-
-class PlaceType(BaseModel):
-    '''
-    Type of place that manufactures drink
-        Distillery, Brewery
-    '''
-    place_type = models.CharField(max_length=255)
-    
-class Place(BaseModel):
-    '''
-    Represents a place that makes a drink
-    '''
-    place_type = models.ForeignKey(PlaceType)
-
-# Information
+# Mongo Libs
 
 RATING = (
     ('1','1',),
@@ -28,13 +7,15 @@ RATING = (
     ('4','4',),
     ('5','5',),
 )
-class DrinkType(BaseModel):
-    '''
-    Type of drink: beer, whiskey
-    '''
-    drink_type = models.CharField(max_length=255)
+class BaseDocument(object):
     
-class Drink(BaseModel):
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+    slug = models.CharField(max_length=100)
+    name = models.CharField(max_length=255)
+    
+    
+class Drink(BaseDocument):
     '''
     Represents a single drink.
     '''
@@ -42,8 +23,9 @@ class Drink(BaseModel):
     # The canonical name of the drink
     #   Will be shown on the page
     full_name = models.CharField(max_length=255)
-    place = models.ForeignKey(Place)
-    drink_type = models.ForeignKey(DrinkType)
+    place = models.CharField(max_length=255)
+    place_type = models.CharField(max_length=255)
+    drink_type = models.CharField(max_length=255)
     
     # Actual bottled year, i.e., 1996
     age = models.IntegerField(null=True, default=None)
@@ -59,7 +41,5 @@ class Drink(BaseModel):
     rating = models.CharField(null=True, blank=True, max_length=1, choices=RATING)
     
     # state of drinking
-    #! NOTE: Do we need to set some sort of expiration
-    #! ISSUE #1
     enjoying = models.BooleanField()
     own = models.BooleanField()
