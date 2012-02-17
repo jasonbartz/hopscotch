@@ -1,5 +1,0 @@
-# Style
-twitter-bootstrap #http://twitter.github.com/bootstrap/
-
-# Behavior
-jquery #http://jquery.com

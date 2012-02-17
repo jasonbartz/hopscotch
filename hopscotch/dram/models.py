@@ -15,18 +15,18 @@ class PlaceType(BaseModel):
     
 class Place(BaseModel):
     '''
-    Represents a place that makes 
+    Represents a place that makes a drink
     '''
     place_type = models.ForeignKey(PlaceType)
 
 # Information
 
 RATING = (
-    ('1','Don\'t try',),
-    ('2','Not bad',),
-    ('3','Good',),
-    ('4','Delicious',),
-    ('5','Must have',),
+    ('1','1',),
+    ('2','2',),
+    ('3','3',),
+    ('4','4',),
+    ('5','5',),
 )
 class DrinkType(BaseModel):
     '''
@@ -44,8 +44,9 @@ class Drink(BaseModel):
     full_name = models.CharField(max_length=255)
     place = models.ForeignKey(Place)
     drink_type = models.ForeignKey(DrinkType)
+    
     # Actual bottled year, i.e., 1996
-    year = models.IntegerField()
+    age = models.IntegerField(null=True, default=None)
     # Exact Date drink released to the public
     release_date = models.DateField(null=True, default=None)
     # Manufacturer's description, often listed on the bottle
