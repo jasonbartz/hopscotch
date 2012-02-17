@@ -1,0 +1,12 @@
+{
+    "js": [
+        "jquery/jquery-1.7.1.min.js",
+        "underscore/underscore.min.js",
+        "bootstrap/js/boostrap.min.js"
+    ],
+    "css": [
+        "bootstrap/css/bootstrap.min.css",
+        "bootstrap/css/bootstrap-responsive.min.css"
+    ],
+    "static_url": "127.0.0.1:9030"
+}
