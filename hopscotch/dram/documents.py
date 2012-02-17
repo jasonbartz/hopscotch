@@ -1,4 +1,12 @@
+# Python Standard Library
+
 # Mongo Libs
+from mongokit import Document
+
+# Local lib
+from hopscotch.dram.db import Connect
+
+connection = Connect()
 
 RATING = (
     ('1','1',),
@@ -7,39 +15,39 @@ RATING = (
     ('4','4',),
     ('5','5',),
 )
-class BaseDocument(object):
-    
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-    slug = models.CharField(max_length=100)
-    name = models.CharField(max_length=255)
-    
-    
-class Drink(BaseDocument):
+@connection.register
+class Drink(Document):
     '''
     Represents a single drink.
     '''
-    ## Information
-    # The canonical name of the drink
-    #   Will be shown on the page
-    full_name = models.CharField(max_length=255)
-    place = models.CharField(max_length=255)
-    place_type = models.CharField(max_length=255)
-    drink_type = models.CharField(max_length=255)
-    
-    # Actual bottled year, i.e., 1996
-    age = models.IntegerField(null=True, default=None)
-    # Exact Date drink released to the public
-    release_date = models.DateField(null=True, default=None)
-    # Manufacturer's description, often listed on the bottle
-    manu_desc = models.TextField(null=True, blank=True, default='')
-    
-    ## Personal/rating information
-    # Personal description, from experience
-    personal_desc = models.TextField(null=True, blank=True, default='')
-    
-    rating = models.CharField(null=True, blank=True, max_length=1, choices=RATING)
-    
-    # state of drinking
-    enjoying = models.BooleanField()
-    own = models.BooleanField()
+    __collection__ = 'drink'
+    __database__ = 'hopscotch'
+    structure = {
+        created: datetime.datetime,
+        modified: datetime.datetime,
+        ## Information
+        # The canonical name of the drink
+        #   Will be shown on the page
+        name: unicode,
+        maker: unicode,
+        # Distillery, brewery, etc
+        maker_type: unicode,
+        drink_type: unicode
+        # Actual bottled year, i.e., 1996
+        age: int,
+        # Exact Date drink released to the public
+        release_date: datetime.datetime,
+        # Manufacturer's description, often listed on the bottle
+        manu_desc: unicode,
+        ## Personal/rating information
+        # Personal description, from experience
+        personal_desc: unicode,
+        rating: int,
+
+        # state of drinking
+        enjoying: bool,
+        own: bool,
+        # Information representing the location queried
+        #   against the Foursquare API
+        location: dict,
+    }
