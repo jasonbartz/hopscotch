@@ -1,12 +1,14 @@
 # Python Standard Library
 
 # Mongo Libs
-from mongokit import Document
+from mongoalchemy.document import Document
+from mongoalchemy import fields
 
 # Local lib
 from hopscotch.dram.db import Connect
 
 connection = Connect()
+
 
 RATING = (
     ('1','1',),
@@ -15,39 +17,43 @@ RATING = (
     ('4','4',),
     ('5','5',),
 )
-@connection.register
-class Drink(Document):
+
+class BaseDocument(Document):
+    '''
+    A base class that all Dram classes will inherit from
+    '''
+    created = fields.DateTimeField()
+    modified = fields.DateTimeField()
+
+class Drink(BaseDocument):
     '''
     Represents a single drink.
     '''
-    __collection__ = 'drink'
-    __database__ = 'hopscotch'
-    structure = {
-        created: datetime.datetime,
-        modified: datetime.datetime,
-        ## Information
-        # The canonical name of the drink
-        #   Will be shown on the page
-        name: unicode,
-        maker: unicode,
-        # Distillery, brewery, etc
-        maker_type: unicode,
-        drink_type: unicode
-        # Actual bottled year, i.e., 1996
-        age: int,
-        # Exact Date drink released to the public
-        release_date: datetime.datetime,
-        # Manufacturer's description, often listed on the bottle
-        manu_desc: unicode,
-        ## Personal/rating information
-        # Personal description, from experience
-        personal_desc: unicode,
-        rating: int,
+    ## Information
+    # The canonical name of the drink
+    #   Will be shown on the page
+    name = fields.StringField()
+    maker = fields.StringField()
+    
+    # Distillery, brewery, etc
+    maker_type = fields.StringField()
+    drink_type = fields.StringField()
+    
+    # Actual bottled year, i.e., 1996
+    age = fields.IntField()
+    # Exact Date drink released to the public
+    release_date: datetime.datetime,
+    # Manufacturer's description, often listed on the bottle
+    manu_desc = fields.StringField()
+    
+    ## Personal/rating information
+    # Personal description, from experience
+    personal_desc = fields.StringField()
+    rating = fields.IntField()
 
-        # state of drinking
-        enjoying: bool,
-        own: bool,
-        # Information representing the location queried
-        #   against the Foursquare API
-        location: dict,
-    }
+    # state of drinking
+    enjoying = fields.BoolField()
+    own = fields.BoolField()
+    # Information representing the location queried
+    #   against the Foursquare API
+    location = fields.DictField(),
