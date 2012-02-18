@@ -7,12 +7,23 @@
             <link rel="stylesheet" href="{{ static_url }}{{ style }}" />
         {% endfor %}{% endif %}
 {% endblock stylesheets %}
-{% block extra_css %}{% endblock %}
+{% block extra_css %}
+<style type="text/css">
+body {
+    background-image: url('{{static_url}}images/web-bg.jpg');
+    background-repeat: no-repeat;
+    background-color:#000;
+}
+h1 {
+    color:#7E7E7E;
+}
+</style> 
+{% endblock %}
 {% block extra_js %}{% endblock %}
 </head>
 
 <body>
-<div id="wrapper">
+<div class="container">
     <div id="header">{% block header %}{% endblock %}</div>
     
     <div id="content">{% block content %}{% endblock %}</div>
