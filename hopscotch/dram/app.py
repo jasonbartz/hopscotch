@@ -68,9 +68,9 @@ class Dram(object):
         api.urls('v1')
 
 dram = Dram(database = 'dram')
-
+app = dram.dram
 
 
 if __name__ == '__main__':
 
-    dram.dram.run(debug=True)
+    app.run(debug=True)
