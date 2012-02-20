@@ -9,11 +9,8 @@ from mongoalchemy.session import Session
 from flask.views import View
 from flask import jsonify, Response
 
-
-class InvalidSetup(Exception):
-    '''
-    Set up incorrectly
-    '''
+from hopscotch import exceptions
+    
 class DocumentBase(object):
     pass
     
@@ -47,13 +44,13 @@ class DocumentResource(DocumentBase, View):
     def get_detail(self, object_id):
         
         if not self.document:
-            raise InvalidSetup('need document')
+            raise exceptions.InvalidSetup('need document')
         
         if not self.session:
-            raise InvalidSetup('need session')
+            raise exceptions.InvalidSetup('need session')
         
         if not self.app:
-            raise InvalidSetup('need app')
+            raise exceptions.InvalidSetup('need app')
             
         detail_query = self.session.query(self.document).filter(self.document.mongo_id == ObjectId(object_id)).one()
 
