@@ -1,0 +1,40 @@
+{
+    "Drink": [
+        {
+            "own" : false,
+            "maker_type" : "Distillery",
+            "drink_type" : "Scotch",
+            "age" : 16,
+            "manu_desc" : "",
+            "personal_desc" : "",
+            "release_date" : "2012-02-19T14:17:15.464Z",
+            "enjoying" : false,
+            "maker" : "Lagavulin",
+            "name" : "Lagavulin 16",
+            "created_by_user": 1,
+            "drink_id": "lavaguvilin-16-2012-02-19#1"
+        },
+        {
+            "own" : false,
+            "maker_type" : "Distillery",
+            "drink_type" : "Scotch",
+            "age" : 16,
+            "manu_desc" : "",
+            "personal_desc" : "",
+            "release_date" : "2012-02-19T14:17:15.464Z",
+            "enjoying" : false,
+            "maker" : "Glenmorangie",
+            "name" : "Glenmorangie 12",
+            "created_by_user": 1,
+            "drink_id": "Glenmorangie-12-2012-02-19#1"
+        }
+    ],
+    "User": [
+        {
+            "user_id": 1,
+            "name": "Jason Bartz",
+            "password": "Beep",
+            "drinks": ["lavaguvilin-16-2012-02-19#1","Glenmorangie-12-2012-02-19#1"]
+        }
+    ]
+}
