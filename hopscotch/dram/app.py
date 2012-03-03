@@ -38,7 +38,7 @@ class Dram(object):
         if self.database:
             self.session = Session.connect(self.database)
         else:
-            raise exceptions.ConfigurationError('Please pass a `database` kwargs')
+            raise exceptions.ConfigurationError('Please pass a `database` kwarg')
     
     def _instantiate_app_object(self):
         '''
