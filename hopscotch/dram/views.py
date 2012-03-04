@@ -1,8 +1,10 @@
 # Third Party Libraries
 from flask import render_template
 from flask.views import View
-
 from mongoalchemy.session import Session
+
+# Local
+from hopscotch.dram.documents import Drink, User
 
 session = Session.connect('dram')
 
@@ -24,13 +26,17 @@ class Cellar(BaseView):
     '''
     def dispatch_request(self, user_id=None):
         
-        context = {}
-        context['drinks'] = []
+        context = {
+            'user': [],
+            'drinks': []
+        }
         
-        query = session.query(User).filter(User.user_id == user_id).limit(10)
+        user = session.query(User).filter(User.user_id == user_id).one()
+        context['user'] = user
         
-        for query_obj in query:
-            context['drinks'].append(query_obj)
+        for drink in user.drinks:
+            context['drinks'].append(session.query(Drink).filter(Drink.drink_id == drink).one())
+        
             
-        return render_template('cellar.html')
+        return render_template('cellar.html', **context)
 
