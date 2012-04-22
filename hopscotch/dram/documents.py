@@ -1,13 +1,13 @@
 # Python Standard Library
 import datetime
 # Mongo Libs
-from mongoalchemy.document import Document
-from mongoalchemy import fields
+from mongoengine import Document
+from mongoengine import fields
 
 # Local lib
 
-class HashField(fields.Field):
-    pass
+# class HashField(fields.Field):
+#     pass
 
 RATING = (
     ('1','1',),
@@ -17,17 +17,20 @@ RATING = (
     ('5','5',),
 )
 
-class BaseDocument(Document):
-    '''
-    A base class that all Dram classes will inherit from
-    '''
-    created         = fields.DateTimeField(required=False, default=datetime.datetime.now())
-    modified        = fields.DateTimeField(required=False, default=datetime.datetime.now())
+# class BaseDocument(Document):
+#     '''
+#     A base class that all Dram classes will inherit from
+#     '''
+#     created         = fields.DateTimeField(default=datetime.datetime.now())
+#     modified        = fields.DateTimeField(default=datetime.datetime.now())
 
-class Drink(BaseDocument):
+class Drink(Document):
     '''
     Represents a single drink.
     '''
+    created         = fields.DateTimeField(default=datetime.datetime.now())
+    modified        = fields.DateTimeField(default=datetime.datetime.now())
+
     # Meta
     created_by_user = fields.IntField()
     drink_id        = fields.StringField()
@@ -35,39 +38,42 @@ class Drink(BaseDocument):
     # The canonical name of the drink
     #   Will be shown on the page
     name            = fields.StringField()
-    maker           = fields.StringField(required=False, default='')
+    maker           = fields.StringField()
     
     # Distillery, brewery, etc
-    maker_type      = fields.StringField(required=False, default='')
-    drink_type      = fields.StringField(required=False, default='')
+    maker_type      = fields.StringField()
+    drink_type      = fields.StringField()
     
     # Actual bottled year, i.e., 1996
-    age             = fields.IntField(required=False, default=0)
+    age             = fields.IntField()
     # Exact Date drink released to the public
-    release_date    = fields.DateTimeField(required=False, default=datetime.datetime.now())
+    release_date    = fields.DateTimeField(default=datetime.datetime.now())
     # Manufacturer's description, often listed on the bottle
-    manu_desc       = fields.StringField(required=False, default='')
+    manu_desc       = fields.StringField()
     
     ## Personal/rating information
     # Personal description, from experience
-    personal_desc   = fields.StringField(required=False, default='')
-    rating          = fields.IntField(required=False, default=0)
+    personal_desc   = fields.StringField()
+    rating          = fields.IntField()
 
     # state of drinking
-    enjoying        = fields.BoolField(required=False, default=False)
-    own             = fields.BoolField(required=False, default=False)
+    enjoying        = fields.BooleanField(default=False)
+    own             = fields.BooleanField(default=False)
     # Information representing the location queried
     #   against the Foursquare API
     # location = fields.DictField()
 
-class User(BaseDocument):
+class User(Document):
     '''
     Represents a user
     '''
     user_id         = fields.IntField()
-    name            = fields.StringField(required=False, default='')
-    password        = fields.StringField(required=False, default='')
+    name            = fields.StringField()
+    username        = fields.StringField()
+    password        = fields.StringField()
     # A list of drinks tied to this user
-    drinks          = fields.ListField(fields.StringField(), required=False, default=[])
-    
+    drinks          = fields.ListField()
+    created         = fields.DateTimeField(default=datetime.datetime.now())
+    modified        = fields.DateTimeField(default=datetime.datetime.now())
+
     

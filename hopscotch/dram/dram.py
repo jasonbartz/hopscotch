@@ -3,7 +3,6 @@ import json
 
 # Third Party Libraries
 from flask import Flask
-from mongoalchemy.session import Session
 from werkzeug.routing import Map, Rule
 
 # Local Libraries
@@ -31,9 +30,9 @@ class Dram(object):
     
     def get_urls(self):
         url_mapping = Map([
-            Rule('/', endpoint='home_view'),
-            Rule('/checkin/', endpoint='checkin_view'),
-            Rule('/cellar/<int:user_id>/', endpoint='cellar_view'),
+            Rule('/<string:username>/', endpoint='home_view'),
+            Rule('/<string:username>/checkin/', endpoint='checkin_view'),
+            Rule('/<string:username>/cellar/', endpoint='cellar_view'),
         ])
         url_functions = {
             'home_view': Home.as_view('home_view'),
@@ -43,15 +42,6 @@ class Dram(object):
         
         return url_mapping, url_functions
         
-    def _open_mongo_session(self):
-        '''
-        Set the session with the database
-        '''
-        if self.database:
-            self.session = Session.connect(self.database)
-        else:
-            raise exceptions.ConfigurationError('Please pass a `database` kwarg')
-    
     def _instantiate_app_object(self):
         '''
         Instantiate the Flask object
@@ -77,7 +67,6 @@ class Dram(object):
         '''
         Run the dram app
         '''
-        self._open_mongo_session()
         self._instantiate_app_object()
         self._set_environment()
         

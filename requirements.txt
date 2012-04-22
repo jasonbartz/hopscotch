@@ -4,7 +4,7 @@ django-tastypie
 
 # mongo libraries
 pymongo
-mongoalchemy
+mongoengine
 
 # utility libraries
 yolk

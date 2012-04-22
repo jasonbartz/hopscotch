@@ -33,6 +33,7 @@
         {
             "user_id": 1,
             "name": "Jason Bartz",
+            "username": "jason",
             "password": "Beep",
             "drinks": ["lavaguvilin-16-2012-02-19#1","Glenmorangie-12-2012-02-19#1"]
         }

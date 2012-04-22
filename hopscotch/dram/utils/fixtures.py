@@ -3,12 +3,12 @@ A class for import json fixtures
 '''
 import json
 
-from mongoalchemy.session import Session
-
+from mongoengine import register_connection, connect
 from hopscotch.settings import PROJECT_ROOT
 from hopscotch.dram import documents
 from hopscotch.dram.utils.decode import _decode_dict, _decode_list
-app_session = Session.connect('dram')
+
+connect('hopscotch')
 
 class Fixture(object):
     
@@ -32,7 +32,8 @@ class Fixture(object):
     def run(self):
         for key, document in self.fixture.items():
             query_document = getattr(documents, key)
-            
+
             for single_document in document:
                 
-                app_session.insert(query_document(**single_document))
+                query_obj = query_document(**single_document)
+                query_obj.save()

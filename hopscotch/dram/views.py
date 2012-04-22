@@ -1,42 +1,46 @@
 # Third Party Libraries
 from flask import render_template
 from flask.views import View
-from mongoalchemy.session import Session
-
+from mongoengine import connect
 # Local
 from hopscotch.dram.documents import Drink, User
 
-session = Session.connect('dram')
-
+connect('hopscotch')
 
 class BaseView(View):
     methods         = ['GET']
 
 class Home(BaseView):
-    def dispatch_request(self):
+    def dispatch_request(self, username=None):
         return render_template('home.html')
 
 class Checkin(BaseView):
-    def dispatch_request(self):
+    def dispatch_request(self, username=None):
         return render_template('checkin.html')
 
 class Cellar(BaseView):
     '''
     Show the drinks in the collection
     '''
-    def dispatch_request(self, user_id=None):
+    def dispatch_request(self, username=None):
         
         context = {
             'user': [],
             'drinks': []
         }
         
-        user = session.query(User).filter(User.user_id == user_id).one()
+        user = User.objects.get(username=username)
         context['user'] = user
         
         for drink in user.drinks:
-            context['drinks'].append(session.query(Drink).filter(Drink.drink_id == drink).one())
-        
+            context['drinks'].append(Drink.objects.get(drink_id=drink))
+            
             
         return render_template('cellar.html', **context)
 
+class PublicFeed(BaseView):
+    """
+    Show drinks recently bought or checked-in to.
+    """
+    def dispatch_request(self):
+        pass
