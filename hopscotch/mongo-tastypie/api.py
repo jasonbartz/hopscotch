@@ -116,17 +116,25 @@ class MongoResource(Resource):
 		"""
 		A method to create an object
 		"""
-		pass
+		connection = self._connect()
+
+		bundle.obj = connection.save(kwargs)
+
+		bundle = self.full_hydrate(bundle)
+
+		return(bundle)
 
 	def obj_update(self, request=None, **kwargs):
 		"""
 		A method to update an object
 		"""
-		pass
+		return(self.obj_create(bundle, request, **kwargs))
 
 	def obj_delete_list(self, request=None, **kwargs):
 		"""
 		A method to delete an entire list of objects
+
+		UNUSED: Required to override.
 		"""
 		pass
 
@@ -134,10 +142,14 @@ class MongoResource(Resource):
 		"""
 		A method to delete a single object.
 		"""
-		pass
+		connection = self._connect()
+
+		failure = connection.remove(**kwargs)
 
 	def rollback(self, bundles):
 		"""
 		A method to rollback failed database transactions.
+
+		UNUSED: Required to override.
 		"""
 		pass
