@@ -1,5 +1,5 @@
 # Django and Django Libraries
-flask
+django
 django-tastypie
 
 # mongo libraries
