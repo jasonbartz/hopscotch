@@ -8,37 +8,36 @@ from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization
 
 class MongoAuthentication(Authentication):
-	"""
-	A login-based authentication route.
+    """
+    A login-based authentication route.
 
-	Relevant information is stored in a 
-		User collection.
-
-	"""
+    Relevant information is stored in a 
+        User collection.
+    """
     def is_authenticated(self, request, **kwargs):
-    	"""
-    	Determines if a user is authenticated.
-    	"""
+        """
+        Determines if a user is authenticated.
+        """
         return False
 
     def get_identifier(self, request):
-    	"""
-    	Identifies the user
-    	"""
+        """
+        Identifies the user
+        """
         return request.user.username
 
 class MongoAuthorization(Authorization):
-	"""
-	A login-based authorization route.
+    """
+    A login-based authorization route.
 
-	Relevant information is stored in a 
-		User collection.
-	"""
+    Relevant information is stored in a 
+        User collection.
+    """
     def is_authorized(self, request, object=None):
-    	"""
-    	Determines if a user is authorized.
-    	"""
-		return False
+        """
+        Determines if a user is authorized.
+        """
+        return False
 
     def apply_limits(self, request, object_list):
         """
