@@ -1,6 +1,7 @@
 # Django and Django Libraries
 django
 django-tastypie
+django-tastypie-mongoengine
 
 # mongo libraries
 pymongo

@@ -3,10 +3,13 @@ api.py
 
 A lightweight implementation of django-tastypie to GET/POST to MongoDB
 
+UNFINISHED: REPLACED WITH django-tastypie-mongoengine
 """
 
-from tastypie import Resource
+from tastypie.resources import Resource, DeclarativeMetaclass
+from tastypie import fields
 from pymongo import Connection
+
 
 class MongoConnection(object):
     """
@@ -51,13 +54,48 @@ class MongoConnection(object):
 
         return(database[self.collection]) 
 
+
+# class MongoEngineDeclarativeClass(DeclarativeMetaclass):
+
+#     def __new__(cls, name, bases, attr):
+
+#         meta = attrs.get('Meta')
+
+
+#         if meta and hasattr(meta, 'document'):
+#             setattr(cls, 'document', meta.queryset.model)
+
+#         new_class = super(ModelDeclarativeMetaclass, cls).__new__(cls, name, bases, attrs)
+#         include_fields = getattr(new_class._meta, 'fields', [])
+#         excludes = getattr(new_class._meta, 'excludes', [])
+#         field_names = new_class.base_fields.keys()
+
+#         for field_name in field_names:
+#             if field_name == 'resource_uri':
+#                 continue
+#             if field_name in new_class.declared_fields:
+#                 continue
+#             if len(include_fields) and not field_name in include_fields:
+#                 del(new_class.base_fields[field_name])
+#             if len(excludes) and field_name in excludes:
+#                 del(new_class.base_fields[field_name])
+
+#         # Add in the new fields.
+#         new_class.base_fields.update(new_class.get_fields(include_fields, excludes))
+
+#         return new_class
+
 class MongoResource(Resource):
     """
     A class that can be subclassed in order to plug a mongo document
         resource directly into an API
     """
-    database = None
-    collection = None
+
+    __metaclass__ = MongoEngineDeclarativeClass
+
+    class Meta:
+        database = None
+        collection = None
 
     def _connect(self):
         """
@@ -65,11 +103,20 @@ class MongoResource(Resource):
 
         Call per method so that it will avoid Mongo reconnect errors.
         """
-        return(MongoConnection(
-                    database=self.database,
-                    collection=self.collection
+        connection = MongoConnection(
+                    database=self._meta.database,
+                    collection=self._meta.collection
                  )
-        )
+        
+        return(connection.connect())
+
+    @classmethod
+    def get_mongoenginefields_from_api_fields(self, f, default=fields.CharField):
+        pass
+
+    @classmethod
+    def get_fields(cls, fields=None, excludes=None):
+        pass
 
     def get_resource_uri(self, bundle_or_obj):
         """
@@ -81,12 +128,21 @@ class MongoResource(Resource):
             'resource_name': self._meta.resource_name,
         }
 
-        kwargs['pk'] = bundle_or_obj.id
+        kwargs['pk'] = bundle_or_obj.obj.get('_id').__str__()
 
         if self._meta.api_name is not None:
             kwargs['api_name'] = self._meta.api_name
 
         return self._build_reverse_url("api_dispatch_detail", kwargs=kwargs)
+
+    def full_dehydrate(self, bundle):
+        """
+        Given a bundle with an object instance, extract the information from it
+        to populate the resource.
+        """
+        self.fields.update(self._meta.document._fields.copy())
+        import pdb;pdb.set_trace()
+        return(super(MongoResource, self).full_dehydrate(bundle))
 
     def get_object_list(self, request):
         """
@@ -94,7 +150,7 @@ class MongoResource(Resource):
         """
         connection = self._connect()
 
-        mongo_list_cursor = connection.find():
+        mongo_list_cursor = connection.find()
 
         results = []
 

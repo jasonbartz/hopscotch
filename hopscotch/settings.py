@@ -1,4 +1,5 @@
 import os
+from mongoengine import connect
 
 dirname = os.path.dirname
 
@@ -16,4 +17,12 @@ TEMPLATE_DIRS = (
 
 DEBUG = True
 
-SECRET_KEY = 'balls'
+SECRET_KEY = 'face'
+
+
+# MongoEngne
+connect('hopscotch')
+
+AUTHENTICATION_BACKENDS = (
+    'mongoengine.django.auth.MongoEngineBackend',
+)
