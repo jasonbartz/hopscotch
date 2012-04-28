@@ -2,7 +2,10 @@
     "js": [
         "jquery/jquery-1.7.1.min.js",
         "underscore/underscore.min.js",
-        "bootstrap/js/bootstrap.min.js"
+        "bootstrap/js/bootstrap.min.js",
+        "json2.js",
+        "backbone/backbone-min.js",
+        "zepto/zepto.json"
     ],
     "css": [
         "bootstrap/css/bootstrap.min.css",
