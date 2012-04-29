@@ -2,8 +2,8 @@
 api.py
 
 """
-# from hopscotch.mongo_tastypie.api import MongoResource
 from tastypie.authorization import Authorization
+from tastypie.resources import ALL
 from mongoengine.django.auth import User
 from tastypie_mongoengine import resources
 
@@ -32,6 +32,9 @@ class DrinkResource(resources.MongoEngineResource):
 		queryset = Drink.objects.all()
 		allowed_methods = ('get', 'post', 'put', 'delete')
 		authorization = Authorization()
+		filtering = {
+			'name': ALL,
+		}
 
 
 # class UserResource(resources.MongoEngineResource):

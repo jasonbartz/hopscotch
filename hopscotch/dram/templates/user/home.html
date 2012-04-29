@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-
+{% for drink in drinks %}
+{{ drink.id }}
+{% endfor %}
 {% endblock %}

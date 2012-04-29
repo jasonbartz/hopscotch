@@ -11,7 +11,8 @@ from hopscotch.dram.api import DrinkResource
 from hopscotch.dram.views import (Public, 
 								  Create, 
 								  Login, 
-								  UserHome)
+								  UserHome,
+								  Checkin)
 
 
 # API URLs
@@ -24,5 +25,7 @@ urlpatterns = patterns('',
     (r'^login/', Login.as_view()),
     (r'^create/$', Create.as_view()),
     (r'^user/(?P<username>\w+)/$', UserHome.as_view()),
+    (r'^user/(?P<username>\w+)/checkin/$', Checkin.as_view()),
     (r'^api/', include(v1_api.urls)),
+
 )

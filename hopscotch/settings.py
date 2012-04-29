@@ -17,12 +17,18 @@ TEMPLATE_DIRS = (
 
 MIDDLEWARE_CLASSES = (
 	'django.middleware.csrf.CsrfViewMiddleware',
+	'django.contrib.sessions.middleware.SessionMiddleware',
+	'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 DEBUG = True
 
 SECRET_KEY = 'face'
 
-
+SESSION_ENGINE = 'mongoengine.django.sessions'
+LOGIN_REDIRECT_URL = '/user/admin'
+INSTALLED_APPS = (
+	'django.contrib.sessions',
+)
 # MongoEngne
 connect('hopscotch')
 

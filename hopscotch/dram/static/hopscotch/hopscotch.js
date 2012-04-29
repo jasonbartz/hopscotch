@@ -89,9 +89,30 @@ function create_drink() {
     });
 }
 
+function search_drinks() {
+    $.getJSON('/api/v1/drink/?format=json' + '&' + 'name__icontains=lagavulin')
+    .success(function(data){ search_results(data) });
+}
+
+function search_results(data) {
+    
+    $.each(data['objects'],function(key, value){
+        drink_obj = new Drink(value);
+        var DrinkView = Backbone.View.extend({
+            model: drink_obj,
+        });
+        view_instance = new DrinkView();
+        console.log(view_instance);
+        $('.search_results').html(view_instance.el);    
+    })
+    
+}
 // Buttons
 $('#submit').click(function(){
     create_drink();
+});
+$('#search').click(function(){
+    search_drinks();
 });
 
 

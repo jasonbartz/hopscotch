@@ -4,10 +4,10 @@ from django.views.generic import TemplateView
 from django.db import settings
 from django.views.decorators.csrf import csrf_protect
 from django.shortcuts import render_to_response, redirect
+from django.contrib.auth import authenticate, login
 from mongoengine import connect
-from mongoengine.django.auth import User
 
-from hopscotch.dram.documents import Drink
+from hopscotch.dram.documents import Drink, User
 
 
 class BaseView(TemplateView):
@@ -48,13 +48,20 @@ class Login(BaseView):
             request_dict = self.request.POST.copy()
             username = request_dict.get('username')
             password =  request_dict.get('password')
-            print username
-            user = User.objects.get(username=username)
 
-            user.check_password(password)
-            user.is_authenticated
+            user = authenticate(username=username, password=password)
 
-            return(redirect(to='/user/%s/' % username))
+            if user is not None:
+                if user.is_active:
+                    login(self.request, user)
+                    self.request.session.set_test_cookie()
+                    return(redirect(to='/user/%s/' % username))
+
+                else:
+                    pass# Return a 'disabled account' error message
+            else:
+                pass# Return an 'invalid login' error message.
+
         
         return(super(Login, self).render_to_response(context, **response_kwargs))
 
@@ -62,8 +69,20 @@ class Login(BaseView):
 class Create(BaseView):
     template_name = 'create.html'
 
+class Checkin(BaseView):
+    template_name = 'user/checkin.html'    
+
 class UserHome(BaseView):
     template_name = 'user/home.html'
+
+    def get_context_data(self, **kwargs):
+        
+        context = {}
+        if self.request.user.is_authenticated():
+            user = User.objects.get(username=self.request.user.username)
+            context['drinks'] = Drink.objects.filter(id__in=user.drinks)
+
+        return(context)    
 
 class UserCellar(BaseView):
     template_name = 'user/cellar.html'

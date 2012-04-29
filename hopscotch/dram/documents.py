@@ -3,11 +3,7 @@ import datetime
 # Mongo Libs
 from mongoengine import Document
 from mongoengine import fields
-
-# Local lib
-
-# class HashField(fields.Field):
-#     pass
+from mongoengine.django import auth
 
 RATING = (
     ('1','1',),
@@ -16,13 +12,6 @@ RATING = (
     ('4','4',),
     ('5','5',),
 )
-
-# class BaseDocument(Document):
-#     '''
-#     A base class that all Dram classes will inherit from
-#     '''
-#     created         = fields.DateTimeField(default=datetime.datetime.now())
-#     modified        = fields.DateTimeField(default=datetime.datetime.now())
 
 class Drink(Document):
     '''
@@ -67,17 +56,7 @@ class Drink(Document):
 
         return('')
 
-# class User(Document):
-#     '''
-#     Represents a user
-#     '''
-#     user_id         = fields.IntField()
-#     name            = fields.StringField()
-#     username        = fields.StringField()
-#     password        = fields.StringField()
-#     # A list of drinks tied to this user
-#     drinks          = fields.ListField()
-#     created         = fields.DateTimeField(default=datetime.datetime.now())
-#     modified        = fields.DateTimeField(default=datetime.datetime.now())
+class User(auth.User):
 
-    
+    drinks = fields.ListField()
+  
