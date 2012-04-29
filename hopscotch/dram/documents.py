@@ -63,17 +63,21 @@ class Drink(Document):
     #   against the Foursquare API
     # location = fields.DictField()
 
-class User(Document):
-    '''
-    Represents a user
-    '''
-    user_id         = fields.IntField()
-    name            = fields.StringField()
-    username        = fields.StringField()
-    password        = fields.StringField()
-    # A list of drinks tied to this user
-    drinks          = fields.ListField()
-    created         = fields.DateTimeField(default=datetime.datetime.now())
-    modified        = fields.DateTimeField(default=datetime.datetime.now())
+    def get_recent_checkins(self):
+
+        return('')
+
+# class User(Document):
+#     '''
+#     Represents a user
+#     '''
+#     user_id         = fields.IntField()
+#     name            = fields.StringField()
+#     username        = fields.StringField()
+#     password        = fields.StringField()
+#     # A list of drinks tied to this user
+#     drinks          = fields.ListField()
+#     created         = fields.DateTimeField(default=datetime.datetime.now())
+#     modified        = fields.DateTimeField(default=datetime.datetime.now())
 
     

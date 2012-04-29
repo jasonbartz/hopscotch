@@ -1,15 +1,16 @@
 {
     "js": [
-        "jquery/jquery-1.7.1.min.js",
-        "underscore/underscore.min.js",
-        "bootstrap/js/bootstrap.min.js",
+        "jquery-1.7.1.min.js",
+        "underscore.min.js",
         "json2.js",
-        "backbone/backbone-min.js",
-        "zepto/zepto.json"
+        "backbone-min.js",
+        "zepto.min.js",
+        "bootstrap.min.js"
     ],
     "css": [
-        "bootstrap/css/bootstrap.min.css",
-        "bootstrap/css/bootstrap-responsive.min.css"
+        "bootstrap.min.css",
+        "bootstrap-responsive.min.css"
     ],
-    "static_url": "http://127.0.0.1:9030/"
+ 
+    "static_url": "http://c341323.r23.cf1.rackcdn.com/"
 }

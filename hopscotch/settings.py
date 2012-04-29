@@ -15,6 +15,9 @@ TEMPLATE_DIRS = (
 	'/Users/bartz/Code/repo/hopscotch/hopscotch/dram/templates',
 )
 
+MIDDLEWARE_CLASSES = (
+	'django.middleware.csrf.CsrfViewMiddleware',
+)
 DEBUG = True
 
 SECRET_KEY = 'face'
