@@ -16,7 +16,7 @@ class BaseView(TemplateView):
         """
         Get the config json, currently located in hopscotch.dram
         """
-        with open('%s/hopscotch/dram/config.json.old' % settings.PROJECT_ROOT,'rb') as config_file:
+        with open('%s/hopscotch/dram/config.json.local' % settings.PROJECT_ROOT,'rb') as config_file:
             self.config = json.loads(config_file.read())
     
     def get_context_data(self, **kwargs):
@@ -30,6 +30,9 @@ class BaseView(TemplateView):
         })
 
 
+class Home(BaseView):
+    template_name = 'home.html'
+    
 class Public(BaseView):
     template_name = 'public.html'
 
@@ -43,6 +46,10 @@ class Login(BaseView):
         """
         Returns a response with a template rendered with the given context.
         """
+        if self.request.user.is_authenticated():
+
+            return(redirect(to='/user/%s/' % self.request.user.username))
+        
         if self.request.method in ('POST', 'PUT'):
             
             request_dict = self.request.POST.copy()
@@ -65,7 +72,6 @@ class Login(BaseView):
         
         return(super(Login, self).render_to_response(context, **response_kwargs))
 
-
 class Create(BaseView):
     template_name = 'create.html'
 
@@ -74,15 +80,3 @@ class Checkin(BaseView):
 
 class UserHome(BaseView):
     template_name = 'user/home.html'
-
-    # def get_context_data(self, **kwargs):
-        
-    #     context = {}
-    #     if self.request.user.is_authenticated():
-    #         user = User.objects.get(username=self.request.user.username)
-    #         context['drinks'] = Drink.objects.filter(id__in=user.drinks)
-
-    #     return(context)    
-
-class UserCellar(BaseView):
-    template_name = 'user/cellar.html'

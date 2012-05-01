@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>{% block title %}{% endblock %}| HopScotch!</title>
+<title>{% block title %}{% endblock %} HopScotch!</title>
 {% block stylesheets %}
     {% if css %}{% for style in css %}
             <link rel="stylesheet" href="{{ static_url }}{{ style }}" />
@@ -10,12 +10,12 @@
 {% block extra_css %}
 <style type="text/css">
 body {
-/*    
+    
     background-image: url('{{static_url}}images/web-bg.jpg');
     background-repeat: no-repeat;
     background-color:#000;
     color:#fff;
-*/
+
 }
 
 h1 {
@@ -29,13 +29,94 @@ h2 {
 h3 {
     color:#F69A34;
 }
-/*#header {
+ul { list-style: none }
+#checkinmodal {
+    display:none;
+}
+#checkin_form {
+    width:250px;
+    margin:0 auto;
+}
+#checkin_form label {
+    color:#fff;
+    margin-top:10px;
+    font-weight:bold;
+}
+.own-active {
+    background-image: url('{{static_url}}images/bottle_active.png');
+    height:50px;
+    width:18px;
+    float:right;
+}
+.own-inactive {
+    background-image: url('{{static_url}}images/bottle_inactive.png');
+    height:50px;
+    width:18px;
+    float:right;
+
+}
+.enjoying-active {
+    background-image: url('{{static_url}}images/martini_active.png');
+    height:47px;
+    width:29px;
+    float:right;
+    margin:2px;
+
+}
+.enjoying-inactive {
+    background-image: url('{{static_url}}images/martini_inactive.png');
+    height:47px;
+    width:29px;
+    float:right;
+    margin:2px;
+
+}
+.rating-star-container {
+    position:absolute;
+    right:0;
+    top:0;
+    width:100px;
+    height:20px;
+
+}
+.rating-star {
+    background-image: url('{{static_url}}images/star.png');
+    background-repeat: no-repeat;
+    position:relative;
+    float:left;
+    width:20px;
+    height:20px;
+}
+.beta {
+    background-color:rgba(0,0,0,.7);
+    width:400px;
+    margin:0 auto;
+    padding:20px;
+}
+.beta h2 {
+    margin-bottom:20px;
+}
+.beta label {
+    color:#fff;
+    font-weight:bold;
+}
+.beta p {
+    margin-bottom:20px;
+}
+.beta input {
+    margin-bottom:20px;
+}
+.beta .button-submit {
+    width:100%;
+}
+#header {
     margin:12px 0 5px;
     height:100px;
-    background-image: url('{{static_url}}images/logov2.png');  
+    background-image: url('{{static_url}}images/logo-noborder.png');  
     background-position:0 0;
     background-repeat: no-repeat;
-}*/
+    text-align:right;
+}
 #content {
 /*    border-top-left-radius: 10px 10px;
     border-top-right-radius: 10px 10px;
@@ -45,10 +126,21 @@ h3 {
     width:100%;
 
 }
+/*.search_results {
+    background-color:rgba(96,30,0,.8);
+
+}*/
 /*.well {
     background-color:rgba(96,30,0,.8);
     margin-top:20px;
 }*/
+.drink {
+    background-color:rgba(0,0,0,.7);
+    padding:8px;
+    position:relative;
+    margin-bottom:10px;
+    min-width:290px;
+}
 .btn-checkin {
     background-color: #601E00;
 /*    background-image: -moz-linear-gradient(top, #791100, #601E00);
@@ -105,8 +197,18 @@ h3 {
     float:right;
     margin-right:20px;
 }
+#search input, #search button {
+    float:left;
+    margin-left:10px;
+}
 input[type="checkbox"] {
     margin:10px 0;
+}
+.personal_desc strong {
+    color:#AD6704;
+}
+.manu_desc strong {
+    color:#AD6704;
 }
 </style> 
 {% endblock %}

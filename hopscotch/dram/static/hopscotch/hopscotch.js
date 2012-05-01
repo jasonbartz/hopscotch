@@ -51,14 +51,12 @@ var Drink = Backbone.Model.extend({
     schema: {
         name: {},
         maker: {},
-        personal_desc: {},
         manu_desc: {},
         drink_type: {type: "Select", options: ["Whiskey","Scotch","Beer","Wine"]},
         enjoying: { type: "Checkbox" },
-        own: { type: "Checkbox" }
-        // rating: { type: "Radio", options: [1,2,3,4,5], editorClass: "rating" }
-        // age: {}
-        // release_date: {}
+        own: { type: "Checkbox" },
+        age: {},
+        release_date: {}
     }
 })
 
@@ -73,7 +71,7 @@ function render_drink(){
     return('Success');
 }
 
-//render_drink();
+render_drink();
 
 function create_drink() {
     form.commit();
@@ -92,7 +90,7 @@ function create_drink() {
 function checkin_drink(data){
        $.ajax({
         type: 'POST',
-        url: '/api/v1/userdrink/',
+        url: '/api/v1/checkin/',
         data: JSON.stringify(data),
         dataType: "application/json",
         processData:  false,
@@ -108,14 +106,14 @@ function search_drinks() {
 
 }
 function search_drinks_by_user(user_id) {
-    $.getJSON('/api/v1/userdrink/?format=json' + '&' + 'user_id__in=' + user_id)
+    $.getJSON('/api/v1/checkin/?format=json' + '&' + 'user_id__in=' + user_id)
     .success(function(data){ search_results_user(data) }).error(function(err){ console.log(err); });
 
 }
 
-function pr(tagname, value){
+function pr(tagname, value, classes){
     // Prints item to HTML
-    return("<" + tagname + ">" + value + "</" + tagname + ">")
+    return("<" + tagname + " class='" + classes + "'>" + value + "</" + tagname + ">")
 }
 function pr_checkbox(label, bool) {
     var checked = 'checked';
@@ -135,16 +133,10 @@ function search_results(data) {
     $('.search_results').html('');
     $.each(data['objects'],function(key, value){
         html_list = [
-            '<div id="' +value['id'] +'" class="drink">',
-            pr('h2', value['name']),
-            pr('p', value['maker']),
-            pr_checkbox('Own ', value['own']),
-            pr_checkbox('Enjoyed ', value['enjoying']),
-            pr('p class="rating"', value['rating'])
+            '<div id="' +value['id']+ '" class="drink span4">',
+            pr('h2', value['name'],'drink-name'),
+            pr('p', value['maker'], 'drink-maker'),
         ]
-        if (value["personal_desc"] !== null) {
-            html_list.push(pr('div  class="personal_desc"', "<strong>My notes</strong>" + pr('p', value['personal_desc'])));
-        }
         if (value["manu_desc"] !== null) {
             html_list.push(pr('div class="manu_desc"', "<strong>Maker's description</strong>" + pr('p', value['manu_desc'])));
         }
@@ -162,13 +154,29 @@ function search_results_user(data) {
     $('.search_results').html('');
     $.each(data['objects'],function(key, value){
         html_list = [
-            '<div id="' +value['drink_id']+ '" class="drink">',
-            pr('h2', value['drink']['name']),
-            pr('p', value['drink']['maker']),
-            pr_checkbox('Own ', value['own']),
-            pr_checkbox('Enjoyed ', value['enjoying']),
-            pr('p class="rating"', value['rating'])
+            '<div id="' +value['drink_id']+ '" class="drink span4">',
+            pr('h2', value['drink']['name'],'drink-name'),
+            pr('p', value['drink']['maker'], 'drink-maker'),
         ]
+        html_list.push('<div class="rating-star-container">')
+        if (value['rating'] !== null) {
+            rating = parseInt(value['rating']);
+            _.each(_.range(rating), function(key) {
+                html_list.push(pr('p', '', 'rating-star'))
+            });
+            
+        }
+        html_list.push("</div>")
+        if (value['own'] === true) {
+            html_list.push(pr('div', '', 'own-active'))
+        } else {
+            html_list.push(pr('div', '', 'own-inactive'))
+        }
+        if (value['enjoying'] === true) {
+            html_list.push(pr('div', '', 'enjoying-active'))
+        } else {
+            html_list.push(pr('div', '', 'enjoying-inactive'))
+        }
         if (value["personal_desc"] !== null) {
             html_list.push(pr('div  class="personal_desc"', "<strong>My notes</strong>" + pr('p', value['personal_desc'])));
         }
@@ -198,8 +206,6 @@ function checkin(obj) {
     }
 
     checkin_obj = {
-        // 'object_id': $(obj).attr('id'),
-        // 'drink_id': $(obj).attr('drink_id'),
         'drink_id': $(obj).attr('id'),
         'user_id': user_id
     }
@@ -207,7 +213,7 @@ function checkin(obj) {
     $('.modal-header h3').html("Check in to " + $(obj).find('h2').html());
     $('#tasting-notes').val($(obj).find('.personal_desc p').html());
     set_rating($(obj).find('.rating').html())
-    
+    $('#checkinmodal').css('display','block');
     $('#checkinmodal').modal('show');
     $('.btn-checkin').click(function(){
         _.extend(checkin_obj, get_checkin_info());

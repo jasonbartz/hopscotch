@@ -10,28 +10,18 @@ from tastypie_mongoengine import resources
 from bson.objectid import ObjectId
 
 from hopscotch.mongo_tastypie.auth import MongoAuthentication, MongoAuthorization
-from hopscotch.dram.documents import Drink, UserDrink
+from hopscotch.dram.documents import Drink, Checkin
 
 
 
-# class Public(resources.MongoEngineResource):
-#   """
-#   A resource for the public feed.
-#   """
+class PublicResource(resources.MongoEngineResource):
+    """
+    A resource for the public feed.
+    """
+    class Meta:
+        queryset = Checkin.objects.all()
+        allowed_methods = ('get',)
 
-#   def get_queryset(self):
-#       return Drink.objects.all()
-
-# class MongoResource(resources.MongoEngineResource):
-
-
-# class MongoResource(resources.MongoEngineResource):
-#     def put_list(self, request, **kwargs):
-        
-#         import pdb;pdb.set_trace()
-#         deserialized = self.deserialize(request, request.raw_post_data, format=request.META.get('CONTENT_TYPE', 'application/json'))
-#         deserialized = self.alter_deserialized_list_data(request, deserialized)
-#         super(MongoResource, self).put_list(request, **kwargs)
 
 class DrinkResource(resources.MongoEngineResource):
     """
@@ -47,16 +37,16 @@ class DrinkResource(resources.MongoEngineResource):
             'id': ALL,
         }
 
-class UserDrinkResource(resources.MongoEngineResource):
+class CheckinResource(resources.MongoEngineResource):
     """
     A resource for drinks.
 
     """
     drink = DictField()
     class Meta:
-        queryset = UserDrink.objects.all()
+        queryset = Checkin.objects.all()
         allowed_methods = ('get', 'post', 'put', 'delete')
-        resource_name = 'userdrink'
+        resource_name = 'checkin'
         authorization = Authorization()
         filtering = {
             'name': ALL,
@@ -75,6 +65,7 @@ class UserDrinkResource(resources.MongoEngineResource):
             return(dehydrate_dict)
         except AttributeError:
             return(None)
+
 # class UserResource(resources.MongoEngineResource):
 #   """
 #   A user resource

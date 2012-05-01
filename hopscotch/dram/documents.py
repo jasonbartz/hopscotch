@@ -17,7 +17,6 @@ class Drink(Document):
     '''
     Represents a single drink.
     '''
-    created         = fields.DateTimeField(default=datetime.datetime.now())
     modified        = fields.DateTimeField(default=datetime.datetime.now())
 
     # Meta
@@ -40,10 +39,12 @@ class Drink(Document):
     # Manufacturer's description, often listed on the bottle
     manu_desc       = fields.StringField()
 
-class UserDrink(Document):
+class Checkin(Document):
     """
     A drink tied to a user
     """
+    created         = fields.DateTimeField(default=datetime.datetime.now())
+
     drink_id        = fields.StringField()
     user_id         = fields.StringField()
 
@@ -59,9 +60,8 @@ class UserDrink(Document):
     #   against the Foursquare API
     # location = fields.DictField()
 
-    def get_recent_checkins(self):
-
-        return('')
+    class Meta:
+        ordering = ("-created",)
 
 class User(auth.User):
 
