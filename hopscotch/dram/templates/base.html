@@ -17,6 +17,7 @@ body {
     color:#fff;
 */
 }
+
 h1 {
     color:#7E7E7E;
     text-shadow:1px #601E00;
@@ -44,10 +45,10 @@ h3 {
     width:100%;
 
 }
-.well {
+/*.well {
     background-color:rgba(96,30,0,.8);
     margin-top:20px;
-}
+}*/
 .btn-checkin {
     background-color: #601E00;
 /*    background-image: -moz-linear-gradient(top, #791100, #601E00);
@@ -104,18 +105,28 @@ h3 {
     float:right;
     margin-right:20px;
 }
+input[type="checkbox"] {
+    margin:10px 0;
+}
 </style> 
 {% endblock %}
 {% block extra_js %}{% endblock %}
 </head>
 
 <body>
+
 <div class="container-fluid">
     <div id="header">
-        {% block header %}{# <h1>HopScotch</h1> #}{% endblock %}
+        {% block header %}
+            {% if user.is_authenticated %}
+                <p> Welcome, {{ user.first_name }}</p>
+            {% else %}
+                <a href="/login">Login</a>
+            {% endif %}
+        {% endblock %}
     </div>
     
-    <div id="content">
+    <div id="content" class="span4">
         {% block content %}{% endblock %}
 
     </div>
@@ -125,12 +136,63 @@ h3 {
     </div>
     <div id="footer">{% block footer %}{% endblock %}</div>
 </div>
+{% block modal %}
+
+<div class="modal" id="checkinmodal">
+  <div class="modal-header">
+    <button class="close" data-dismiss="modal">×</button>
+    <h3>Check in</h3>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal">
+    <fieldset>
+<!--        <div class="control-group">
+        <label class="control-label" for="enjoying"><strong>I am enjoying</strong></label>
+            <div class="controls">
+                <input type="checkbox" name="enjoying" />
+            </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label" for="own"><strong>I own</strong></label>
+            <div class="controls">
+                <input type="checkbox" name="own" />
+            </div>
+        </div> -->
+        <div class="control-group">
+        <label class="control-label" for="enjoying"><strong>Tasting notes</strong></label>
+            <div class="controls">
+                <textarea rows="3" name="input-xlarge" id="tasting-notes"></textarea>
+            </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label" for="enjoying"><strong>Rating</strong></label>
+            <div class="controls">
+                <input type="radio" value="1" name="rating" class="rating-radio" />
+                <input type="radio" value="2" name="rating" class="rating-radio" />
+                <input type="radio" value="3" name="rating" class="rating-radio" />
+                <input type="radio" value="4" name="rating" class="rating-radio" />
+                <input type="radio" value="5" name="rating" class="rating-radio" />
+
+            </div>
+        </div>
+    </fieldset>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <div class='btn btn-checkin'>Enjoying now</div>
+    <div class='btn btn-cabinet'>Add to cellar</div>
+  </div>
+</div>
+
+{% endblock %}
 
 {% block javascript %}
     {% if js %}{% for script in js %}
             <script type="text/javascript" src="{{ static_url }}{{ script }}"></script>
         {% endfor %}{% endif %}
 {% endblock javascript %}
+{% block action_js %}
+{% endblock action_js %}
 </body>
 
 </html>

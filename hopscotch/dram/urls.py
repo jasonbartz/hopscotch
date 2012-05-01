@@ -7,7 +7,7 @@ from django.conf.urls import patterns, url, include
 from django.shortcuts import render_to_response
 from tastypie.api import Api
 
-from hopscotch.dram.api import DrinkResource
+from hopscotch.dram.api import DrinkResource, UserDrinkResource
 from hopscotch.dram.views import (Public, 
 								  Create, 
 								  Login, 
@@ -18,6 +18,7 @@ from hopscotch.dram.views import (Public,
 # API URLs
 v1_api = Api(api_name='v1')
 v1_api.register(DrinkResource())
+v1_api.register(UserDrinkResource())
 
 
 urlpatterns = patterns('',

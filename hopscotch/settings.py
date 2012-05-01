@@ -19,15 +19,17 @@ MIDDLEWARE_CLASSES = (
 	'django.middleware.csrf.CsrfViewMiddleware',
 	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 DEBUG = True
-
+INTERNAL_IPS = ('127.0.0.1',)
 SECRET_KEY = 'face'
 
 SESSION_ENGINE = 'mongoengine.django.sessions'
 LOGIN_REDIRECT_URL = '/user/admin'
 INSTALLED_APPS = (
 	'django.contrib.sessions',
+	'debug_toolbar',
 )
 # MongoEngne
 connect('hopscotch')

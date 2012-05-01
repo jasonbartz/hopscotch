@@ -39,7 +39,14 @@ class Drink(Document):
     release_date    = fields.DateTimeField(default=datetime.datetime.now())
     # Manufacturer's description, often listed on the bottle
     manu_desc       = fields.StringField()
-    
+
+class UserDrink(Document):
+    """
+    A drink tied to a user
+    """
+    drink_id        = fields.StringField()
+    user_id         = fields.StringField()
+
     ## Personal/rating information
     # Personal description, from experience
     personal_desc   = fields.StringField()

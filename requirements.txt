@@ -10,3 +10,4 @@ mongoengine
 # utility libraries
 yolk
 ipython==0.11
+django-debug-toolbar
