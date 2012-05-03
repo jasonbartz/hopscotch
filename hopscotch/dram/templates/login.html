@@ -2,7 +2,7 @@
 {% block title %}Login | {% endblock %}|
 {% block content %}
 
-<div id="checkin_form" class="form-horizontal">
+<div class="form-horizontal creation-forms">
 <form action="/login/" method="post">
 {% csrf_token %} 
 	<label>Username</label><input type="text" name="username" />

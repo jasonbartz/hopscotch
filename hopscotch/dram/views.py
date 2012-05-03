@@ -4,7 +4,8 @@ from django.views.generic import TemplateView
 from django.db import settings
 from django.views.decorators.csrf import csrf_protect
 from django.shortcuts import render_to_response, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+
 from mongoengine import connect
 
 from hopscotch.dram.documents import Drink, User
@@ -35,6 +36,13 @@ class Home(BaseView):
     
 class Public(BaseView):
     template_name = 'public.html'
+
+class Logout(BaseView):
+    template_name = 'login.html'
+    
+    def render_to_response(self, context, **response_kwargs):
+        logout(self.request)
+        return(super(Logout, self).render_to_response(context, **response_kwargs))
 
 class Login(BaseView):
     template_name = 'login.html'
@@ -80,3 +88,14 @@ class Checkin(BaseView):
 
 class UserHome(BaseView):
     template_name = 'user/home.html'
+
+class Beta(BaseView):
+    """
+    A master view class to handle Beta reponses.
+
+    Currently accepts email addresses and sends them to the administrator.
+    """
+
+    template_name = 'beta.html'
+
+

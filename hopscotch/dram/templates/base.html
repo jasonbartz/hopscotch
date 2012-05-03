@@ -30,14 +30,26 @@ h3 {
     color:#F69A34;
 }
 ul { list-style: none }
+
+a {
+    font-weight:bold;
+    text-decoration:none;
+}
+
+a:link, a:visited {
+    color:#9F3E00;
+}
+a:active, a:hover {
+    color:#601E00;
+}
 #checkinmodal {
     display:none;
 }
-#checkin_form {
+.creation-forms {
     width:250px;
     margin:0 auto;
 }
-#checkin_form label {
+.creation-forms  label {
     color:#fff;
     margin-top:10px;
     font-weight:bold;
@@ -221,7 +233,7 @@ input[type="checkbox"] {
     <div id="header">
         {% block header %}
             {% if user.is_authenticated %}
-                <p> Welcome, {{ user.first_name }}</p>
+                <p> Welcome, {{ user.first_name }}.  <a href="/logout">Logout</a></p>
             {% else %}
                 <a href="/login">Login</a>
             {% endif %}

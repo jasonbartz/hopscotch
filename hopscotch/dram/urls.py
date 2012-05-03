@@ -10,13 +10,14 @@ from tastypie.api import Api
 from hopscotch.dram.api import (DrinkResource,
                                 CheckinResource,
                                 PublicResource)
-
 from hopscotch.dram.views import (Home,
                                   Public, 
 								  Create, 
-								  Login, 
+								  Login,
+                                  Logout,
 								  UserHome,
-								  Checkin)
+								  Checkin,
+                                  Beta)
 
 
 # API URLs
@@ -30,9 +31,13 @@ urlpatterns = patterns('',
     (r'^$', Home.as_view()),
     (r'^public/$', Public.as_view()),
     (r'^login/$', Login.as_view()),
+    (r'^logout/$', Logout.as_view()),
     (r'^create/$', Create.as_view()),
     (r'^user/(?P<username>\w+)/$', UserHome.as_view()),
     (r'^user/(?P<username>\w+)/checkin/$', Checkin.as_view()),
     (r'^api/', include(v1_api.urls)),
+
+    # Beta
+    (r'^beta/$', Beta.as_view()),
 
 )
