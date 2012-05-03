@@ -4,8 +4,9 @@
         "underscore.min.js",
         "json2.js",
         "backbone-min.js",
-        "zepto.min.js",
+        "backbone-forms.js",
         "bootstrap.min.js"
+        "hopscotch/hopscotch.js"
     ],
     "css": [
         "bootstrap.min.css",

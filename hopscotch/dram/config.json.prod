@@ -1,0 +1,17 @@
+{
+    "js": [
+        "jquery/jquery-1.7.1.min.js",
+        "zepto/zepto.min.js",
+        "underscore/underscore.min.js",
+        "json2.js",
+        "backbone/backbone-min.js",
+        "backbone/backbone-forms.js",
+        "bootstrap/js/bootstrap.min.js",
+        "hopscotch/hopscotch.js"
+    ],
+    "css": [
+        "bootstrap/css/bootstrap.min.css",
+        "bootstrap/css/bootstrap-responsive.min.css"
+    ],
+    "static_url": "/static/"
+}

@@ -16,7 +16,7 @@ class BaseView(TemplateView):
         """
         Get the config json, currently located in hopscotch.dram
         """
-        with open('%s/hopscotch/dram/config.json.local' % settings.PROJECT_ROOT,'rb') as config_file:
+        with open('%s/hopscotch/dram/%s' % (settings.PROJECT_ROOT, settings.CONFIG_JSON),'rb') as config_file:
             self.config = json.loads(config_file.read())
     
     def get_context_data(self, **kwargs):
