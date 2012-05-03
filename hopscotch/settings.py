@@ -38,3 +38,5 @@ connect('hopscotch')
 AUTHENTICATION_BACKENDS = (
     'mongoengine.django.auth.MongoEngineBackend',
 )
+
+CONFIG_JSON = 'config.json.local'
