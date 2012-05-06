@@ -68,19 +68,26 @@ class Login(BaseView):
 class Create(BaseView):
     template_name = 'create.html'
 
+class UserView(BaseView):
+    
+    def get_context_data(self, **kwargs):
+        if kwargs.get('username'):
+            user = User.objects.get(username=kwargs['username'])
+            kwargs['user_id'] = user.pk.__str__()
+        return(kwargs)
 class Checkin(BaseView):
     template_name = 'user/checkin.html'
 
-class Cellar(BaseView):
+class Cellar(UserView):
     template_name = 'user/cellar.html'
 
-class Enjoying(BaseView):
+class Enjoying(UserView):
     template_name = 'user/enjoyed.html'
 
-class Following(BaseView):
+class Following(UserView):
     template_name = 'user/following.html'
 
-class UserHome(BaseView):
+class UserHome(UserView):
     template_name = 'user/home.html'
 
 class Beta(BaseView):

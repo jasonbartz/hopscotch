@@ -147,7 +147,7 @@ function search_drinks() {
 
 }
 function search_drinks_by_user(user_id, page) { 
-    $.getJSON('/api/v1/checkin/?format=json&user_id__in=' + user_id + '&' + page + '=true')
+    $.getJSON('/api/v1/checkin/?format=json&user_id=' + user_id + '&' + page + '=true')
         .success(function(data){ search_results_user(data) })
         .error(function(err){ console.log(err); });
 }
@@ -193,7 +193,6 @@ function search_results(data) {
 
 function search_results_user(data) {
     $('.search_results').html('');
-    console.log(data)
     $.each(data['objects'],function(key, value){
         html_list = [
             '<div id="' +value['drink_id']+ '" class="drink span4">',
@@ -209,16 +208,6 @@ function search_results_user(data) {
             
         }
         html_list.push("</div>")
-        // if (value['own'] === true) {
-        //     html_list.push(pr('div', 'own', 'own-active'))
-        // } else {
-        //     html_list.push(pr('div', '', 'own-inactive'))
-        // }
-        // if (value['enjoying'] === true) {
-        //     html_list.push(pr('div', 'enjoyed', 'enjoying-active'))
-        // } else {
-        //     html_list.push(pr('div', '', 'enjoying-inactive'))
-        // }
         if (value["personal_desc"] !== null) {
             html_list.push(pr('div  class="personal_desc"', "<strong>My notes</strong>" + pr('p', value['personal_desc'])));
         }
@@ -230,9 +219,6 @@ function search_results_user(data) {
         $('.search_results').append(html);
         
     })
-    $('.drink').click(function(){
-        checkin(this);
-    });
 }
 
 function checkin(obj) {
