@@ -49,14 +49,14 @@ var Drink = Backbone.Model.extend({
     release_date: Date,
     resource_uri: String,
     schema: {
-        name: {},
+        name: { },
         maker: {},
-        manu_desc: {},
-        drink_type: {type: "Select", options: ["Whiskey","Scotch","Beer","Wine"]},
-        enjoying: { type: "Checkbox" },
-        own: { type: "Checkbox" },
+        manu_desc: {title: "Maker's description"},
+        drink_type: {type: "Select", options: ["Whiskey","Scotch","Beer","Wine"],title: "Type of drink"},
         age: {},
-        release_date: {}
+        release_date: {title: "Release date"},
+        rating: {type: "Radio", options: [1,2,3,4,5]},
+        personal_desc: {title: "My description"}
     }
 })
 
@@ -73,14 +73,48 @@ function render_drink(){
 
 render_drink();
 
-function create_drink() {
+function error(err) {
+    $('#content').prepend('<div class="alert alert-error">Something went wrong, here.  Error has been reported.</div>');
+}
+
+function create_drink(type_of_enjoyment) {
     form.commit();
+    create_drink_obj = form.getValue();    
+    checkin_obj = {
+        'rating': create_drink_obj.rating,
+        'personal_desc': create_drink_obj.personal_desc,
+        'user_id': user_id,
+    }
+    create_drink_obj.created_by_user = user_id;
+    delete create_drink_obj.rating;
+    delete create_drink_obj.personal_desc;
+    create_drink_obj.age = parseInt(create_drink_obj.age);
+
+    if (create_drink_obj.release_date === "") {
+        create_drink_obj.release_date = null    
+    } else {
+        create_drink_obj.release_date = new Date(create_drink_obj.release_date)    
+    }
+    
+
     $.ajax({
         type: 'POST',
         url: '/api/v1/drink/',
-        data: JSON.stringify(form.getValue()),
-        // success: console.log('success'),
-        // error: function(err){console.log(err['responseText'])},
+        data: JSON.stringify(create_drink_obj),
+        error: function(err){
+            if (err['status'] === 201) {
+                response_json = JSON.parse(err['responseText']);
+                checkin_obj.drink_id = response_json.id
+                if (type_of_enjoyment === 'enjoying') {
+                    checkin_obj.enjoying = true;
+                } else if (type_of_enjoyment === 'own') {
+                    checkin_obj.own = true;
+                }
+                checkin_drink(checkin_obj)
+            } else {
+                error(err);    
+            }
+        },
         dataType: "application/json",
         processData:  false,
         contentType: "application/json"
@@ -94,7 +128,14 @@ function checkin_drink(data){
         data: JSON.stringify(data),
         dataType: "application/json",
         processData:  false,
-        error: function(err){console.log(err)},
+        error: function(err){
+            if (err['status'] === 201) {
+                window.location.href = "/user/"+ username;
+
+            } else {
+                error(err);
+            }
+        },
         contentType: "application/json"
     }); 
 }
@@ -105,10 +146,10 @@ function search_drinks() {
     .success(function(data){ search_results(data) });
 
 }
-function search_drinks_by_user(user_id) {
-    $.getJSON('/api/v1/checkin/?format=json' + '&' + 'user_id__in=' + user_id)
-    .success(function(data){ search_results_user(data) }).error(function(err){ console.log(err); });
-
+function search_drinks_by_user(user_id, page) { 
+    $.getJSON('/api/v1/checkin/?format=json&user_id__in=' + user_id + '&' + page + '=true')
+        .success(function(data){ search_results_user(data) })
+        .error(function(err){ console.log(err); });
 }
 
 function pr(tagname, value, classes){
@@ -167,16 +208,16 @@ function search_results_user(data) {
             
         }
         html_list.push("</div>")
-        if (value['own'] === true) {
-            html_list.push(pr('div', '', 'own-active'))
-        } else {
-            html_list.push(pr('div', '', 'own-inactive'))
-        }
-        if (value['enjoying'] === true) {
-            html_list.push(pr('div', '', 'enjoying-active'))
-        } else {
-            html_list.push(pr('div', '', 'enjoying-inactive'))
-        }
+        // if (value['own'] === true) {
+        //     html_list.push(pr('div', 'own', 'own-active'))
+        // } else {
+        //     html_list.push(pr('div', '', 'own-inactive'))
+        // }
+        // if (value['enjoying'] === true) {
+        //     html_list.push(pr('div', 'enjoyed', 'enjoying-active'))
+        // } else {
+        //     html_list.push(pr('div', '', 'enjoying-inactive'))
+        // }
         if (value["personal_desc"] !== null) {
             html_list.push(pr('div  class="personal_desc"', "<strong>My notes</strong>" + pr('p', value['personal_desc'])));
         }
@@ -234,13 +275,18 @@ $('#checkinmodal').modal();
 $('#checkinmodal').modal('hide');
 
 // Buttons
-$('#submit').click(function(){
-    create_drink();
+$('.creation-forms .btn-checkin').click(function(){
+    create_drink('enjoying');
 });
-$('#search button').click(function(){
+$('.creation-forms .btn-cabinet').click(function(){
+    create_drink('own');
+});
+$('button#search').click(function(){
     search_drinks();
 });
-
+$('#create-drink').click(function(){
+    window.location.href = "/create/";
+});
 
 // }).call(this);
 // function checkin() {

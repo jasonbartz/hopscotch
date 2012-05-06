@@ -1,33 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>{% block title %}{% endblock %} HopScotch!</title>
+<title>{% block title %}{% endblock %} hpsct.ch</title>
 {% block stylesheets %}
     {% if css %}{% for style in css %}
             <link rel="stylesheet" href="{{ static_url }}{{ style }}" />
         {% endfor %}{% endif %}
 {% endblock stylesheets %}
 {% block extra_css %}
+<link href='http://fonts.googleapis.com/css?family=Antic+Didone' rel='stylesheet' type='text/css'>
+
 <style type="text/css">
+
 body {
     
-    background-image: url('{{static_url}}images/web-bg.jpg');
-    background-repeat: no-repeat;
-    background-color:#000;
-    color:#fff;
+    background-color:rgba(191,212,132,.2);
+    color:#374B21;
 
 }
 
 h1 {
-    color:#7E7E7E;
+    color:rgb(55,75,33);
     text-shadow:1px #601E00;
 }
 h2 {
-    color:#F69A34;
+    color:rgb(55,75,33);
     margin-left:10px;
 }
 h3 {
-    color:#F69A34;
+    color:rgb(55,75,33);
 }
 ul { list-style: none }
 
@@ -37,7 +38,7 @@ a {
 }
 
 a:link, a:visited {
-    color:#9F3E00;
+    color:rgb(119,145,59);
 }
 a:active, a:hover {
     color:#601E00;
@@ -50,7 +51,7 @@ a:active, a:hover {
     margin:0 auto;
 }
 .creation-forms  label {
-    color:#fff;
+    color:#566F32;
     margin-top:10px;
     font-weight:bold;
 }
@@ -100,7 +101,6 @@ a:active, a:hover {
     height:20px;
 }
 .beta {
-    background-color:rgba(0,0,0,.7);
     width:400px;
     margin:0 auto;
     padding:20px;
@@ -124,77 +124,54 @@ a:active, a:hover {
 #header {
     margin:12px 0 5px;
     height:100px;
-    background-image: url('{{static_url}}images/logo-noborder.png');  
+    background-image: url('{{static_url}}images/logo-onlytext.png');  
     background-position:0 0;
     background-repeat: no-repeat;
     text-align:right;
 }
+#header p {
+    position:fixed;
+    top:10px;
+    right:20px;
+}
 #content {
-/*    border-top-left-radius: 10px 10px;
-    border-top-right-radius: 10px 10px;
-    border-bottom-left-radius: 10px 10px;
-    border-bottom-right-radius: 10px 10px;*/
     float:left;
     width:100%;
 
 }
-/*.search_results {
-    background-color:rgba(96,30,0,.8);
 
-}*/
-/*.well {
-    background-color:rgba(96,30,0,.8);
-    margin-top:20px;
-}*/
 .drink {
-    background-color:rgba(0,0,0,.7);
+    background-color:rgba(55,75,33,.1);
     padding:8px;
     position:relative;
     margin-bottom:10px;
     min-width:290px;
 }
 .btn-checkin {
-    background-color: #601E00;
-/*    background-image: -moz-linear-gradient(top, #791100, #601E00);
-    background-image: -ms-linear-gradient(top, #791100, #601E00);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#791100), to(#601E00));*/
-    background-image: -webkit-linear-gradient(top, #9E5112, #601E00);
-/*    background-image: -o-linear-gradient(top, #791100, #601E00);
-    background-image: linear-gradient(top, #791100, #601E00);*/
+    background-color: #77913B;
+    background-image: -webkit-linear-gradient(top, #77913B, #9FB65B);
     background-repeat: repeat-x;
-/*    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#791100', endColorstr='#601E00', GradientType=0);*/
     border-color: #F89406 #F89406 #AD6704;
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-/*    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-*/    color:#fff;
+    color:#fff;
 }
 .btn-checkin:hover {
-    background-color: #601E00;
-/*    background-image: -moz-linear-gradient(top, #791100, #601E00);
-    background-image: -ms-linear-gradient(top, #791100, #601E00);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#791100), to(#601E00));*/
-    background-image: -webkit-linear-gradient(top, #9E5112, #601E00);
-/*    background-image: -o-linear-gradient(top, #791100, #601E00);
-    background-image: linear-gradient(top, #791100, #601E00);*/
+    background-color: #9FB65B;
+    background-image: -webkit-linear-gradient(top, #9FB65B, #BFD484);
     background-repeat: repeat-x;
-/*    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#791100', endColorstr='#601E00', GradientType=0);*/
     border-color: #F89406 #F89406 #AD6704;
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-/*    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-*/    color:#fff;
+    color:#fff;
 }
 .btn-cabinet {
-    background-color: #9F3E00;
-    background-image: -webkit-linear-gradient(top, #D78324, #9F3E00);
+    background-color:rgb(86,111,50);
+    background-image: -webkit-linear-gradient(top, #566F32, #374B21);
     background-repeat: repeat-x;
-    border-color: #F89406 #F89406 #AD6704;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
     color:#fff;
 }
 .btn-cabinet:hover {
-    background-color: #9F3E00;
-    background-image: -webkit-linear-gradient(top, #D78324, #9F3E00);
+    background-color:rgb(86,111,50);    
+    background-image: -webkit-linear-gradient(top, #374B21, #566F32);
     background-repeat: repeat-x;
     border-color: #F89406 #F89406 #AD6704;
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
@@ -206,21 +183,106 @@ a:active, a:hover {
     float:left;
 }
 #search {
-    float:right;
+    float:left;
     margin-right:20px;
+    margin-bottom:20px;
+    width:100%;
+
 }
 #search input, #search button {
     float:left;
     margin-left:10px;
+    width:150px;
 }
 input[type="checkbox"] {
     margin:10px 0;
 }
 .personal_desc strong {
-    color:#AD6704;
+    color:rgb(86,111,50);
 }
 .manu_desc strong {
-    color:#AD6704;
+    color:rgb(86,111,50);
+}
+.hpsctch-font {
+    font-family: 'Antic Didone', serif;
+}
+.header-section {
+    float:left;
+    margin-top:36px;
+    margin-left:220px;
+    font-size:45px;
+}
+.bottom {
+    position:fixed;
+    bottom:-20px;
+    margin-left:-20px;
+    padding:10px;
+    width:100%;
+    background-color:#566F32;
+    height:20px;
+}
+.bottom a, .bottom a:link, .bottom a:visited {
+    color:#F2F6E6;
+    text-decoration:none;
+}
+.bottom a:hover, .bottom a:active {
+    color:#566F32;
+    background:none;
+    background-color:#F2F6E6;
+    border: 1px solid #566F32;
+}
+.actions {
+    width:480px;
+    margin:0 auto;
+    height:40px;
+
+}
+.actions a {
+    display:block;
+    width:100%;
+    padding:10px;
+    padding-bottom:20px;
+    height:30px;
+    width:70px;
+    margin-top:-10px;
+    margin-left:-11px;
+
+}
+.action {
+    text-align:center;
+    display:block;
+    width:70px;
+    float:left;
+    margin-top:-40px;
+    padding:10px;
+    background-color:#566F32;
+    height:30px;
+
+}
+.action-following, .action-following a {
+    border-top-left-radius: 10px;
+}
+.action-cellar, .action-cellar a {
+    border-top-right-radius:10px;
+}
+.action-checkin{
+    margin-top:-50px;
+    height:60px;
+    border-top-left-radius:10px;
+    border-top-right-radius:10px;
+}
+.action-checkin a {
+    padding-bottom:30px;
+    border-top-left-radius:10px;
+    border-top-right-radius:10px;
+}
+.bbf-radio li {
+    float:left;
+    padding:5px;
+}
+.bbf-fieldText {
+    width:100%;
+    float:left;
 }
 </style> 
 {% endblock %}
@@ -231,6 +293,9 @@ input[type="checkbox"] {
 
 <div class="container-fluid">
     <div id="header">
+            <div class="header-section hpsctch-font">
+                <span>{% block section_head %}{% endblock section_head %}</span>
+            </div>
         {% block header %}
             {% if user.is_authenticated %}
                 <p> Welcome, {{ user.first_name }}.  <a href="/logout">Logout</a></p>
@@ -248,7 +313,19 @@ input[type="checkbox"] {
         {% block buttons %}{% endblock %}
         
     </div>
-    <div id="footer">{% block footer %}{% endblock %}</div>
+    <div id="footer">
+        {% block footer %}{% endblock %}
+    </div>
+    <div class="bottom">
+        {% if user.is_authenticated %}
+            <div class="actions">
+                <!-- <div class="action action-following"><a href="/user/{{user.username}}/following">Following</a></div> -->
+                <div class="action action-checkin"><a href="/user/{{user.username}}/checkin/">Checkin</a></div>
+                <div class="action action-enjoyed"><a href="/user/{{user.username}}/enjoyed">Enjoyed</a></div>
+                <div class="action action-cellar"><a href="/user/{{user.username}}/cellar">Cellar</a></div>
+            </div>
+        {% endif %}
+    </div>
 </div>
 {% block modal %}
 
@@ -260,18 +337,6 @@ input[type="checkbox"] {
   <div class="modal-body">
     <form class="form-horizontal">
     <fieldset>
-<!--        <div class="control-group">
-        <label class="control-label" for="enjoying"><strong>I am enjoying</strong></label>
-            <div class="controls">
-                <input type="checkbox" name="enjoying" />
-            </div>
-        </div>
-        <div class="control-group">
-        <label class="control-label" for="own"><strong>I own</strong></label>
-            <div class="controls">
-                <input type="checkbox" name="own" />
-            </div>
-        </div> -->
         <div class="control-group">
         <label class="control-label" for="enjoying"><strong>Tasting notes</strong></label>
             <div class="controls">

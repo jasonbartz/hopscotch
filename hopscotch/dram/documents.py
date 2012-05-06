@@ -20,12 +20,12 @@ class Drink(Document):
     modified        = fields.DateTimeField(default=datetime.datetime.now())
 
     # Meta
-    created_by_user = fields.IntField()
+    created_by_user = fields.StringField()
     drink_id        = fields.StringField()
     ## Information
     # The canonical name of the drink
     #   Will be shown on the page
-    name            = fields.StringField()
+    name            = fields.StringField(required=True)
     maker           = fields.StringField()
     
     # Distillery, brewery, etc
@@ -45,8 +45,8 @@ class Checkin(Document):
     """
     created         = fields.DateTimeField(default=datetime.datetime.now())
 
-    drink_id        = fields.StringField()
-    user_id         = fields.StringField()
+    drink_id        = fields.StringField(required=True)
+    user_id         = fields.StringField(required=True)
 
     ## Personal/rating information
     # Personal description, from experience

@@ -5,7 +5,7 @@
 {% if user.is_authenticated %}
 	<script type="text/javascript">
 	user_id = "{{ user.id }}";
-	search_drinks_by_user(user_id);
+	search_drinks_by_user(user_id, 'enjoying');
 	</script>
 {% endif %}
 {% endblock %}

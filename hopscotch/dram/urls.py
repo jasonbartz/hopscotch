@@ -17,6 +17,9 @@ from hopscotch.dram.views import (Home,
                                   Logout,
 								  UserHome,
 								  Checkin,
+                                  Enjoying,
+                                  Following,
+                                  Cellar,
                                   Beta)
 
 
@@ -35,6 +38,10 @@ urlpatterns = patterns('',
     (r'^create/$', Create.as_view()),
     (r'^user/(?P<username>\w+)/$', UserHome.as_view()),
     (r'^user/(?P<username>\w+)/checkin/$', Checkin.as_view()),
+    (r'^user/(?P<username>\w+)/enjoyed/$', Enjoying.as_view()),
+    (r'^user/(?P<username>\w+)/following/$', Following.as_view()),
+    (r'^user/(?P<username>\w+)/cellar/$', Cellar.as_view()),
+
     (r'^api/', include(v1_api.urls)),
 
     # Beta

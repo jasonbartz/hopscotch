@@ -1,11 +1,19 @@
 {% extends 'base.html' %}
-{% block title %}Create Drink | {% endblock %}|
+{% block title %}Create Drink | {% endblock %}
+{% block section_head %}create{% endblock section_head %}
+{% block action_js %}
+{% if user.is_authenticated %}
+	<script type="text/javascript">
+	user_id = "{{ user.id }}";
+	username = "{{ user.username}}"
+	</script>
+{% endif %}
+{% endblock %}
 {% block content %}
-
-<h2>Create a drink</h2>
 <div id="checkin_form" class="form-horizontal creation-forms">
 
-<button type="submit" id="submit" class="btn btn-checkin">Submit</button>
+<div class='btn btn-checkin'>Enjoying now</div>
+<div class='btn btn-cabinet'>Add to cellar</div>
 </div>
 
 {% endblock %}

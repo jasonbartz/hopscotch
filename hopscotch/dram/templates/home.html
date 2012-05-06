@@ -1,18 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="12 beta">
-<h2>HopScotch is in limited alpha</h2>
+<div class="beta">
+<h2><span class="hpsctch-font">hpsct.ch</span> is in limited beta</h2>
 
-<p><strong>Ability to sign up for beta coming soon!</strong></p>
-<div class='beta-submit'><button type="submit" class="btn btn-cabinet">Wee!</button></div>
-
-<!--
 <p><strong>Enter email address to receive a login when it is available.</strong></p>
-<form action="/email/" method="post" >
+<form action="/beta/" method="POST" >
+{% csrf_token %}
 <input type="text" name="email" />
+{% if error %}<p class="alert alert-error">{{ error }}</p>{% endif %}
 <div class='beta-submit'><button type="submit" class="btn btn-cabinet">Submit Email</button></div>
 </form>
--->
+
 </div>
 
 {% endblock %}

@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
-{% block title %}Checkin | {% endblock %}|
+{% block title %}Checkin | {% endblock %}
+{% block section_head %}checkin{% endblock section_head %}
+
 {% block action_js %}
 {% if user.is_authenticated %}
 	<script type="text/javascript">
@@ -7,15 +9,13 @@
 	</script>
 {% endif %}
 {% endblock %}
-{% block header %}
-{{ super }}
+{% block content %}
+
 <div id="search">
 <input type="text" class="input-medium search-query">
 <button type="submit" id="search" class="btn btn-cabinet">Search for drinks</button>
+<button type="submit" id="create-drink" class="btn btn-checkin">Create a drink.</button>
 </div>
-{% endblock header %}
-{% block content %}
-
 <div class="search_results">
 
 </div>

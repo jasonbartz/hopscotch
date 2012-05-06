@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}{% endblock %}
-{% block section_head %}enjoyed{% endblock section_head %}
+{% block section_head %}cellar{% endblock section_head %}
 {% block action_js %}
 {% if user.is_authenticated %}
 	<script type="text/javascript">
 	user_id = "{{ user.id }}";
-	search_drinks_by_user(user_id);
+	search_drinks_by_user(user_id, 'own');
 	</script>
 {% endif %}
 {% endblock %}

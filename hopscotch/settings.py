@@ -22,10 +22,15 @@ MIDDLEWARE_CLASSES = (
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
+TEMPLATE_CONTEXT_PROCESSORS = (
+	'hopscotch.dram.context_processors.static',
+	'django.contrib.auth.context_processors.auth',
+
+)
 DEBUG = True
 INTERNAL_IPS = ('127.0.0.1',)
 SECRET_KEY = 'face'
-
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SESSION_ENGINE = 'mongoengine.django.sessions'
 LOGIN_REDIRECT_URL = '/user/admin'
 INSTALLED_APPS = (
