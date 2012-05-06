@@ -193,6 +193,7 @@ function search_results(data) {
 
 function search_results_user(data) {
     $('.search_results').html('');
+    console.log(data)
     $.each(data['objects'],function(key, value){
         html_list = [
             '<div id="' +value['drink_id']+ '" class="drink span4">',
@@ -222,7 +223,7 @@ function search_results_user(data) {
             html_list.push(pr('div  class="personal_desc"', "<strong>My notes</strong>" + pr('p', value['personal_desc'])));
         }
         if (value["drink"]["manu_desc"] !== null) {
-            html_list.push(pr('div class="manu_desc"', "<strong>Maker's description</strong>" + pr('p', value['manu_desc'])));
+            html_list.push(pr('div class="manu_desc"', "<strong>Maker's description</strong>" + pr('p', value["drink"]['manu_desc'])));
         }
         html = html_list.join("");
         html += "</div>"
