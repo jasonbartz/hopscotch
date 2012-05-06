@@ -9,6 +9,7 @@ from django.core.mail import send_mail
 from django.core.validators import validate_email, ValidationError
 from django.template import RequestContext
 from mongoengine import connect
+from django.http import Http404
 
 from hopscotch.dram.documents import Drink, User
 
@@ -72,9 +73,13 @@ class UserView(BaseView):
     
     def get_context_data(self, **kwargs):
         if kwargs.get('username'):
-            user = User.objects.get(username=kwargs['username'])
-            kwargs['user_id'] = user.pk.__str__()
+            try:
+                user = User.objects.get(username=kwargs['username'])
+                kwargs['user_id'] = user.pk.__str__()
+            except User.DoesNotExist:
+                raise(Http404())
         return(kwargs)
+
 class Checkin(BaseView):
     template_name = 'user/checkin.html'
 
