@@ -35,6 +35,7 @@ SESSION_ENGINE = 'mongoengine.django.sessions'
 LOGIN_REDIRECT_URL = '/user/admin'
 INSTALLED_APPS = (
 	'django.contrib.sessions',
+	'hopscotch.dram',
 	'debug_toolbar',
 )
 # MongoEngne

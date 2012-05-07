@@ -95,6 +95,26 @@ class Following(UserView):
 class UserHome(UserView):
     template_name = 'user/home.html'
 
+class UserPass(UserView):
+    template_name = 'user/pass.html'
+
+
+    def post(self, request, *args, **kwargs):
+        return(self.render_to_response(self.get_context_data(**kwargs), **kwargs))
+
+    def render_to_response(self, context, **response_kwargs):
+        
+        if self.request.method.upper() in ('POST', 'PUT'):
+
+            if self.request.user.is_authenticated():
+                if self.request.POST['password1'] == self.request.POST['password2']:
+                    self.request.user.set_password(self.request.POST['password1'])
+                    context['errors'] = '<div class="alert alert-success">Password Changed.</p>'
+                else:
+                    context['errors'] = '<div class="alert alert-error">Passwords do not match.</p>'
+
+        return(super(UserPass, self).render_to_response(context, **response_kwargs))
+     
 class Beta(BaseView):
     """
     A master view class to handle Beta reponses.

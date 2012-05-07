@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Change password | {% endblock %}|
+{% block content %}
+
+<div class="form-horizontal creation-forms">
+<form action="/change_password/" method="post">
+{% csrf_token %} 
+	<label>Password</label><input type="password" name="password1" />
+	<label>Password (again)</label><input type="password" name="password2" />
+<button type="submit" id="change" class="btn">Change password</button>
+</form>
+{% autoescape off %}{{ errors }}{% endautoescape %}
+</div>
+
+{% endblock %}
