@@ -60,21 +60,106 @@ var Drink = Backbone.Model.extend({
     }
 })
 
-var drink = new Drink();
 
-var form = new Backbone.Form({
-    model: drink
-}).render();
+// function render_drink(){
+//     return('Success');
+// }
 
-function render_drink(){
-    $('#checkin_form').prepend(form.el);
-    return('Success');
-}
-
-render_drink();
+// render_drink();
 
 function error(err) {
-    $('#content').prepend('<div class="alert alert-error">Something went wrong, here.  Error has been reported.</div>');
+    $('#content').prepend('<div class="alert alert-error">Something went wrong, here.</div>');
+}
+
+function drink_hover_on(obj) {
+    $(obj).append('<a class="drink-edit" href="javascript: void(0);"><span class="label label-info">Edit</span></a>');
+    
+    defaults = {
+        'personal_desc': $(obj).find('.personal_desc p').html(),
+        'rating': $(obj).find('.rating-star-container p').length
+    }
+
+    
+    var form = new Backbone.Form({
+        schema: {
+            rating: {type: "Radio", options: [1,2,3,4,5]},
+            personal_desc: {title: "My description"}
+        },
+        data: defaults,
+    }).render();
+    
+    $('#checkin_form').prepend(form.el);
+
+    $('.drink-edit').click(function(){
+        $('#editmodal').modal();
+        $('#editmodal .modal-body .bbf-form').remove();
+        $('#editmodal').css('display','block');
+        $('#editmodal .modal-body').append(form.el);
+        
+        $('#editmodal .btn.edit-delete').click(function(){
+            delete_checkin($(obj).attr('id'));
+            $('#editmodal').modal('hide');
+        });     
+        $('#editmodal .btn.edit-edit').click(function(){
+            data = {
+                'rating': parseInt($('#editmodal .bbf-form :checked').val()),
+                'personal_desc': $('#editmodal #personal_desc').val()
+            }
+            edit_checkin($(obj).attr('id'), data);
+        });     
+    });
+
+
+}
+function drink_hover_off(obj) {
+    $('.drink-edit').remove();
+}
+
+function drink_hover(){
+    $('.drink-checkin').hover(
+        function(){
+            drink_hover_on($(this));
+        },
+        function() {
+            drink_hover_off($(this));
+        }
+    );    
+}
+
+function delete_checkin(obj_id) {
+        $.ajax({
+        type: 'DELETE',
+        url: '/api/v1/checkin/' + obj_id,
+        error: function(err){
+            if (err['status'] === 204) {
+                $('#content').prepend('<div class="alert alert-success">Checkin removed.</div>');
+                location.reload(true);
+            } else {
+                error(err);    
+            }
+        },
+        dataType: "application/json",
+        processData:  false,
+        contentType: "application/json"
+    });
+}
+function edit_checkin(obj_id) {
+        $.ajax({
+        type: 'PATCH',
+        url: '/api/v1/checkin/' + obj_id,
+        data: JSON.stringify(data),
+        error: function(err){
+            if (err['status'] === 202) {
+                $('#content').prepend('<div class="alert alert-success">Checkin Updated.</div>');
+                location.reload(true);
+            } else {
+                error(err);    
+            }
+        },
+        dataType: "application/json",
+        processData:  false,
+        contentType: "application/json"
+    });
 }
 
 function create_drink(type_of_enjoyment) {
@@ -148,7 +233,7 @@ function search_drinks() {
 }
 function search_drinks_by_user(user_id, page) { 
     $.getJSON('/api/v1/checkin/?format=json&user_id=' + user_id + '&' + page + '=true')
-        .success(function(data){ search_results_user(data) })
+        .success(function(data){ search_results_user(data, page) })
         .error(function(err){ console.log(err); });
 }
 
@@ -189,13 +274,14 @@ function search_results(data) {
     $('.drink').click(function(){
         checkin(this);
     });
+    drink_hover();
 }
 
-function search_results_user(data) {
-    $('.search_results').html('');
+function search_results_user(data, div) {
+    $('.search_results_' + div).html('');
     $.each(data['objects'],function(key, value){
         html_list = [
-            '<div id="' +value['drink_id']+ '" class="drink span4">',
+            '<div id="' +value['id']+ '" class="drink drink-checkin span4">',
             pr('h2', value['drink']['name'],'drink-name'),
             pr('p', value['drink']['maker'], 'drink-maker'),
         ]
@@ -216,8 +302,8 @@ function search_results_user(data) {
         }
         html = html_list.join("");
         html += "</div>"
-        $('.search_results').append(html);
-        
+        $('.search_results_'+div).append(html);
+        drink_hover();
     })
 }
 
@@ -274,6 +360,8 @@ $('button#search').click(function(){
 $('#create-drink').click(function(){
     window.location.href = "/create/";
 });
+
+
 
 // }).call(this);
 // function checkin() {

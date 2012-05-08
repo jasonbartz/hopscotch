@@ -33,7 +33,7 @@ class DrinkResource(resources.MongoEngineResource):
     class Meta:
         queryset = Drink.objects.all()
         always_return_data = True
-        allowed_methods = ('get', 'post', 'put', 'delete')
+        allowed_methods = ('get', 'post', 'put', 'patch')
         authorization = Authorization()
         filtering = {
             'name': ALL,
@@ -49,7 +49,7 @@ class CheckinResource(resources.MongoEngineResource):
     class Meta:
         queryset = Checkin.objects.all()
         always_return_data = True
-        allowed_methods = ('get', 'post', 'put', 'delete')
+        allowed_methods = ('get', 'post', 'put', 'delete','patch')
         resource_name = 'checkin'
         authorization = Authorization()
         filtering = {

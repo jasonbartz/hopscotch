@@ -20,6 +20,15 @@ class BaseView(TemplateView):
 class Home(BaseView):
     template_name = 'home.html'
     
+    def render_to_response(self, context, **response_kwargs):
+        """
+        Returns a response with a template rendered with the given context.
+        """
+        if self.request.user.is_authenticated():
+            return(redirect(to='/user/%s/' % self.request.user.username))
+
+        return(super(Home, self).render_to_response(context, **response_kwargs))
+
 class Public(BaseView):
     template_name = 'public.html'
 
@@ -95,6 +104,26 @@ class Following(UserView):
 class UserHome(UserView):
     template_name = 'user/home.html'
 
+class Account(UserView):
+    template_name = 'user/account.html'
+    
+    def post(self, request, *args, **kwargs):
+        return(self.render_to_response(self.get_context_data(**kwargs)))
+
+    def render_to_response(self, context, **response_kwargs):    
+        if self.request.user.is_authenticated():
+            if self.request.method.upper() in ('POST',):
+                self.request.user.first_name = self.request.POST['first_name']
+                self.request.user.last_name = self.request.POST['last_name']
+                self.request.user.email = self.request.POST['email']
+                self.request.user.save()
+                context['errors'] = '<p class="alert alert-success">Profile updated.</p>'
+        else:
+            raise(Http404())
+
+        return(super(Account, self).render_to_response(context, **response_kwargs))
+
+
 class UserPass(UserView):
     template_name = 'user/pass.html'
 
@@ -103,15 +132,15 @@ class UserPass(UserView):
         return(self.render_to_response(self.get_context_data(**kwargs), **kwargs))
 
     def render_to_response(self, context, **response_kwargs):
-        
-        if self.request.method.upper() in ('POST', 'PUT'):
-
-            if self.request.user.is_authenticated():
+        if self.request.user.is_authenticated():
+            if self.request.method.upper() in ('POST', 'PUT'):
                 if self.request.POST['password1'] == self.request.POST['password2']:
                     self.request.user.set_password(self.request.POST['password1'])
                     context['errors'] = '<div class="alert alert-success">Password Changed.</p>'
                 else:
                     context['errors'] = '<div class="alert alert-error">Passwords do not match.</p>'
+        else:
+            raise(Http404())
 
         return(super(UserPass, self).render_to_response(context, **response_kwargs))
      

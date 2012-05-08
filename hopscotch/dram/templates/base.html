@@ -46,6 +46,9 @@ a:active, a:hover {
 #checkinmodal {
     display:none;
 }
+#editmodal {
+ display:none;   
+}
 .creation-forms {
     width:250px;
     margin:0 auto;
@@ -130,8 +133,8 @@ a:active, a:hover {
     text-align:right;
 }
 #header p {
-    position:fixed;
-    top:10px;
+    position:absolute;
+    top:50px;
     right:20px;
 }
 #content {
@@ -262,7 +265,10 @@ input[type="checkbox"] {
 .action-following, .action-following a {
     border-top-left-radius: 10px;
 }
-.action-cellar, .action-cellar a {
+.action-enjoyed, .action-enjoyed a {
+    border-top-left-radius: 10px;
+}
+.action-settings, .action-settings a {
     border-top-right-radius:10px;
 }
 .action-checkin{
@@ -284,13 +290,39 @@ input[type="checkbox"] {
     width:100%;
     float:left;
 }
+.feedback {
+    margin-top:-10px;
+    font-size:80%;
+}
+.drink-edit {
+    position:absolute;
+    top:5px;
+    right:5px;
+}
+.beta-header {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:30px;
+}
+.container-fluid {
+    margin-top:50px;
+}
 </style> 
 {% endblock %}
 {% block extra_js %}{% endblock %}
 </head>
 
 <body>
+{% if user.is_authenticated %}
 
+<div class="beta-header alert">
+
+    <p>Welcome to the hpsct.ch beta</p>
+    <p class="feedback">Send feedback to <a href="mailto:accounts@hpsct.ch">accounts@hpsct.ch</a> or <a href="http://twitter.com/hpsct_ch" target="_blank">twitter.com/hpsct_ch</a></p>
+</div>
+{% endif %}
 <div class="container-fluid">
     <div id="header">
             <div class="header-section hpsctch-font">
@@ -306,6 +338,8 @@ input[type="checkbox"] {
     </div>
     
     <div id="content" class="span4">
+    
+
         {% block content %}{% endblock %}
 
     </div>
@@ -315,14 +349,17 @@ input[type="checkbox"] {
     </div>
     <div id="footer">
         {% block footer %}{% endblock %}
+
     </div>
     <div class="bottom">
         {% if user.is_authenticated %}
             <div class="actions">
                 <!-- <div class="action action-following"><a href="/user/{{user.username}}/following">Following</a></div> -->
-                <div class="action action-checkin"><a href="/user/{{user.username}}/checkin/">Checkin</a></div>
                 <div class="action action-enjoyed"><a href="/user/{{user.username}}/enjoyed">Enjoyed</a></div>
+                <div class="action action-checkin"><a href="/user/{{user.username}}/checkin/">Checkin</a></div>
                 <div class="action action-cellar"><a href="/user/{{user.username}}/cellar">Cellar</a></div>
+                <div class="action action-settings"><a href="/user/{{user.username}}/account">Settings</a></div>
+
             </div>
         {% endif %}
     </div>
@@ -363,6 +400,20 @@ input[type="checkbox"] {
   </div>
 </div>
 
+<div class="modal" id="editmodal">
+  <div class="modal-header">
+    <button class="close" data-dismiss="modal">×</button>
+    <h3>Edit</h3>
+  </div>
+  <div class="modal-body">
+
+  </div>
+  <div class="modal-footer">
+    <div class='btn btn-danger edit-delete'>Delete</div>
+    <div class='btn btn-checkin edit-edit'>Edit</div>
+
+  </div>
+</div>
 {% endblock %}
 
 {% block javascript %}

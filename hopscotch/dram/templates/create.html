@@ -6,6 +6,13 @@
 	<script type="text/javascript">
 	user_id = "{{ user.id }}";
 	username = "{{ user.username}}"
+	var drink = new Drink();
+	var form = new Backbone.Form({
+	    model: drink
+	}).render();
+	
+	$('#checkin_form').prepend(form.el);
+
 	</script>
 {% endif %}
 {% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}{% endblock %}
+{% block section_head %}settings{% endblock section_head %}
+{% block content %}
+<div class="span12">
+<div class="span4">
+	<h2>Welcome, {{ user.first_name}}</h2>
+	<p><a href="/change_password/">Change Password</a></p>
+	<p><strong>Note:</strong> If you'd like to change your username (<strong>{{ user.username }}</strong>), contact <a href="mailto:accounts@hpsct.ch">accounts@hpsct.ch</a>)
+</div>
+<div class="span6">
+{% autoescape off %}{{ errors }}{% endautoescape %}
+	<h3>Update profile</h3>
+	<form class="form-horizontal" method="post" action="/user/{{user.username}}/account/">	
+		{% csrf_token %} 
+
+		<div class="control-group">  
+            <label class="control-label" for="first_name"><strong>First Name</strong></label> 
+            	<div class="controls"> 
+            		<input type="text" name="first_name" value="{{ user.first_name }}"/>
+            	</div>
+        </div>
+     	<div class="control-group">  
+            <label class="control-label" for="last_name"><strong>Last Name</strong></label> 
+            	<div class="controls"> 
+            		<input type="text" name="last_name" value="{{ user.last_name }}"/>
+            	</div>
+        </div>
+        <div class="control-group">  
+            <label class="control-label" for="email"><strong>Email</strong></label> 
+            	<div class="controls"> 
+            		<input type="text" name="email" value="{{ user.email }}"/>
+            	</div>
+        </div>
+        <button type="submit" class="btn submit offset5">Update</button>
+     </form>
+</div>
+</div>
+{% endblock %}

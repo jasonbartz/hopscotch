@@ -21,7 +21,8 @@ from hopscotch.dram.views import (Home,
                                   Enjoying,
                                   Following,
                                   Cellar,
-                                  Beta)
+                                  Beta,
+                                  Account)
 
 
 # API URLs
@@ -42,6 +43,7 @@ urlpatterns = patterns('',
     (r'^user/(?P<username>\w+)/enjoyed/$', Enjoying.as_view()),
     (r'^user/(?P<username>\w+)/following/$', Following.as_view()),
     (r'^user/(?P<username>\w+)/cellar/$', Cellar.as_view()),
+    (r'^user/(?P<username>\w+)/account/$', Account.as_view()),
     (r'^change_password/$', UserPass.as_view()),
 
     (r'^api/', include(v1_api.urls)),
