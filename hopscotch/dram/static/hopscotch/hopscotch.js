@@ -4,7 +4,7 @@ The HopScotch Master JS Library.
 
 v 0.0.1 prototype
 
-This library controls the feeds, checkins and cellar view of the Hopscotch app.
+This library controls the feeds, checkins and cellar view of the hpsct.ch app.
 
 Requires:
     zepto.js (lightweight jquery port)
@@ -24,13 +24,76 @@ License: MIT (http://www.opensource.org/licenses/MIT)
 
 // }).call(this);
 
+(function(){
+
+// Assign `this` to root, so it can be called if necessary
+var root = this;
+
+// Create the initial Library variable that will store all of our methods.
+var HopScotch;
+
+// Assign the Library variable to `this` (root)
+var HopScotch = root.HopScotch = {};
+
+// Set defaults, including version and base settings
+HopScotch.__version__ = '0.0.1'
+
+// Uses Jquery by default
+var $ = root.jQuery;
+
+var Error = HopScotch.Error = {
+    /* Error Reporting Object
+
+    Available methods:
+
+    ::on ("div to be added to", "error message")
+
+    ::off ("div to remove error from")
+
+    */
+    on: function(div, msg) {
+        $(div).prepend('<div class="alert alert-error">' + msg + '</div>');
+        return(null);
+    },
+    off: function(div) {
+        $(div + ' .alert').remove();
+        return(null);
+    }
+}
+
+var Search = HopScotch.Search = {
+    /* Search Object
+
+    For calling API and Search APIs and ingests JSON
+
+    Available Methods:
+
+    ::search ()
+
+    */
+
+    defaults: { version: 'v1', error_div: '#content' },
+    results: {},
+    search: function(search_parameter_string){
+        $.getJSON('/api/' + HopScotch.Search.defaults.version + 
+                    '/checkin/?format=json&' + 
+                    search_parameter_string)
+            .success(function(data){ 
+                HopScotch.Search.results = data;
+            })
+            .error(function(err){ 
+                HopScotch.Error.on(HopScotch.Search.defaults.error_div, 
+                                  'An error occured.')
+        });
+    }
+}
+
+}).call(this);
 /*
 
 Model out Drink classes
 
 */
-
-// HopScotch = (function(){
 
 var Drink = Backbone.Model.extend({
     age: Number,
@@ -361,11 +424,4 @@ $('#create-drink').click(function(){
     window.location.href = "/create/";
 });
 
-
-
-// }).call(this);
-// function checkin() {
-//  //Check in to a drink
-    
-
-// }
+//.call(this);
