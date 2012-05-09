@@ -11,7 +11,9 @@
     ],
     "css": [
         "bootstrap/css/bootstrap.min.css",
-        "bootstrap/css/bootstrap-responsive.min.css"
+        "bootstrap/css/bootstrap-responsive.min.css",
+        "hopscotch/hopscotch.css"
+
     ],
-    "static_url": "http://localhost:9030/"
+    "static_url": "/static/"
 }

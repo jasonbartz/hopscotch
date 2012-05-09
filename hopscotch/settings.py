@@ -29,6 +29,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 DEBUG = True
 INTERNAL_IPS = ('127.0.0.1',)
+
+DEBUG_TOOLBAR_CONFIG = {
+	'INTERCEPT_REDIRECTS': False
+}
 SECRET_KEY = 'face'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SESSION_ENGINE = 'mongoengine.django.sessions'
@@ -45,4 +49,4 @@ AUTHENTICATION_BACKENDS = (
     'mongoengine.django.auth.MongoEngineBackend',
 )
 
-CONFIG_JSON = 'config.json.local'
+CONFIG_JSON = 'config.local.json'
