@@ -260,5 +260,8 @@ input[type="checkbox"] {
     height:30px;
 }
 .container-fluid {
-    margin-top:50px;
+/*    margin-top:50px;
+*/}
+#checkin_form {
+    min-height:800px;
 }
