@@ -7,7 +7,8 @@
         "backbone/backbone-min.js",
         "backbone/backbone-forms.js",
         "bootstrap/js/bootstrap.min.js",
-        "hopscotch/hopscotch.js"
+        "hopscotch/hopscotch.js",
+        "hopscotch/tastypie.js"
     ],
     "css": [
         "bootstrap/css/bootstrap.min.css",

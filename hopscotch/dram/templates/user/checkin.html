@@ -1,14 +1,44 @@
 {% extends 'base.html' %}
 {% block title %}Checkin | {% endblock %}
 {% block section_head %}checkin{% endblock section_head %}
-
 {% block action_js %}
 {% if user.is_authenticated %}
-	<script type="text/javascript">
-	user_id = "{{ user.id }}";
-	username = "{{ user.username}}"
-	</script>
+    <script type="text/javascript">
+    user_id = "{{ user.id }}";
+    username = "{{ user.username}}"
+
+    $('#checkinmodal').modal();
+    $('#checkinmodal').modal('hide');
+
+    $('button#search').click(function(){
+    
+        search_value = $('#search').val()
+        var drink_search = new HopScotch.Search()       
+        drink_search.search('name__icontains=' + search_value)
+        $('.search_results').html('');
+        $.each(drink_search.results['objects'],function(key, value){
+            html_list = [
+                '<div id="' +value['id']+ '" class="drink span4">',
+                HopScotch.Display.to_html('h2', value['name'],'drink-name'),
+                HopScotch.Display.to_html('p', value['maker'], 'drink-maker'),
+            ]
+            if (value["manu_desc"] !== null) {
+                html_list.push(HopScotch.Display.to_html('div class="manu_desc"', "<strong>Maker's description</strong>" + HopScotch.Display.to_html('p', value['manu_desc'])));
+            }
+            html = html_list.join("");
+            html += "</div>"
+            $('.search_results').append(html);
+            
+        })
+    });
+    $('#create-drink').click(function(){
+        window.location.href = "/create/";
+    });
+    </script>
 {% endif %}
+{% endblock %}
+{% block modal %}
+{% include "includes/checkin_modal.html" %}
 {% endblock %}
 {% block content %}
 

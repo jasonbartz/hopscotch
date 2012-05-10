@@ -72,3 +72,22 @@ class CheckinResource(resources.MongoEngineResource):
 
         except AttributeError:
             return(None)
+
+class BackboneCheckin(resources.MongoEngineResource):
+    class Meta:
+        queryset = Checkin.objects.all()
+        always_return_data = True
+        allowed_methods = ('get', 'post', 'put', 'delete','patch')
+        resource_name = 'b_checkin'
+        authorization = Authorization()
+        filtering = {
+            'name': ALL,
+            'id': ALL,
+            'drink_id': ALL,
+            'user_id': ALL,
+            'enjoying': ALL,
+            'own': ALL,
+        }
+    def alter_list_data_to_serialize(self, request, data):
+        return data["objects"]
+

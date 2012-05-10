@@ -6,13 +6,18 @@
 	<script type="text/javascript">
 	user_id = "{{ user.id }}";
 	username = "{{ user.username}}"
-	var drink = new Drink();
+	var drink = new HopScotch.Drink();
 	var form = new Backbone.Form({
 	    model: drink
 	}).render();
 	
 	$('#checkin_form').prepend(form.el);
-
+	$('.creation-forms .btn-checkin').click(function(){
+	    create_drink('enjoying');
+	});
+	$('.creation-forms .btn-cabinet').click(function(){
+	    create_drink('own');
+	});
 	</script>
 {% endif %}
 {% endblock %}

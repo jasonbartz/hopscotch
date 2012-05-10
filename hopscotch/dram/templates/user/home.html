@@ -8,6 +8,10 @@ search_drinks_by_user("{{ user_id }}",'own');
 
 </script>
 {% endblock %}
+{% block modal %}
+{% if user.is_authenticated %}
+{% include "includes/edit_modal.html" %}
+{% endif %}{% endblock %}
 {% block content %}
 <div class="span12">
 	<h2>Enjoyed</h2>

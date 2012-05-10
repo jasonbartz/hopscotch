@@ -6,6 +6,11 @@
 search_drinks_by_user("{{ user_id }}", 'enjoying');
 </script>
 {% endblock %}
+{% block modal %}
+{% if user.is_authenticated %}
+{% include "includes/edit_modal.html" %}
+{% endif %}
+{% endblock %}
 {% block content %}
 <div class="search_results_enjoying">
 

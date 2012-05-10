@@ -45,8 +45,6 @@
     </div>
     
     <div id="content" class="span4">
-    
-
         {% block content %}{% endblock %}
 
     </div>
@@ -71,57 +69,7 @@
         {% endif %}
     </div>
 </div>
-{% block modal %}
-
-<div class="modal" id="checkinmodal">
-  <div class="modal-header">
-    <button class="close" data-dismiss="modal">×</button>
-    <h3>Check in</h3>
-  </div>
-  <div class="modal-body">
-    <form class="form-horizontal">
-    <fieldset>
-        <div class="control-group">
-        <label class="control-label" for="enjoying"><strong>Tasting notes</strong></label>
-            <div class="controls">
-                <textarea rows="3" name="input-xlarge" id="tasting-notes"></textarea>
-            </div>
-        </div>
-        <div class="control-group">
-        <label class="control-label" for="enjoying"><strong>Rating</strong></label>
-            <div class="controls">
-                <input type="radio" value="1" name="rating" class="rating-radio" />
-                <input type="radio" value="2" name="rating" class="rating-radio" />
-                <input type="radio" value="3" name="rating" class="rating-radio" />
-                <input type="radio" value="4" name="rating" class="rating-radio" />
-                <input type="radio" value="5" name="rating" class="rating-radio" />
-
-            </div>
-        </div>
-    </fieldset>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <div class='btn btn-checkin'>Enjoying now</div>
-    <div class='btn btn-cabinet'>Add to cellar</div>
-  </div>
-</div>
-
-<div class="modal" id="editmodal">
-  <div class="modal-header">
-    <button class="close" data-dismiss="modal">×</button>
-    <h3>Edit</h3>
-  </div>
-  <div class="modal-body">
-
-  </div>
-  <div class="modal-footer">
-    <div class='btn btn-danger edit-delete'>Delete</div>
-    <div class='btn btn-checkin edit-edit'>Edit</div>
-
-  </div>
-</div>
-{% endblock %}
+{% block modal %}{% endblock %}
 
 {% block javascript %}
     {% if js %}{% for script in js %}

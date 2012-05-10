@@ -2,12 +2,12 @@
 
 The HopScotch Master JS Library.
 
-v 0.0.1 prototype
+v 0.1.0 beta
 
 This library controls the feeds, checkins and cellar view of the hpsct.ch app.
 
 Requires:
-    zepto.js (lightweight jquery port)
+    jquery
     underscore.js
     backbone.js
     bootstrap.js (for forms)
@@ -15,14 +15,6 @@ Requires:
 License: MIT (http://www.opensource.org/licenses/MIT)
 
 */
-
-// TODO: Enable this function
-// (function(){
-
-//  // Set up intial variables
-
-
-// }).call(this);
 
 (function(){
 
@@ -36,7 +28,7 @@ var HopScotch;
 var HopScotch = root.HopScotch = {};
 
 // Set defaults, including version and base settings
-HopScotch.__version__ = '0.0.1'
+HopScotch.__version__ = '0.1.0';
 
 // Uses Jquery by default
 var $ = root.jQuery;
@@ -46,9 +38,9 @@ var Error = HopScotch.Error = {
 
     Available methods:
 
-    ::on ("div to be added to", "error message")
+    :: on ("div to be added to", "error message")
 
-    ::off ("div to remove error from")
+    :: off ("div to remove error from")
 
     */
     on: function(div, msg) {
@@ -61,56 +53,143 @@ var Error = HopScotch.Error = {
     }
 }
 
-var Search = HopScotch.Search = {
+var Search = HopScotch.Search = function(){
     /* Search Object
 
     For calling API and Search APIs and ingests JSON
 
     Available Methods:
 
-    ::search ()
+    :: search (search_parameter_string)
 
+    Static:
+
+    :: defaults
+        api version
+        error_div
     */
 
-    defaults: { version: 'v1', error_div: '#content' },
-    results: {},
-    search: function(search_parameter_string){
-        $.getJSON('/api/' + HopScotch.Search.defaults.version + 
-                    '/checkin/?format=json&' + 
-                    search_parameter_string)
-            .success(function(data){ 
-                HopScotch.Search.results = data;
-            })
-            .error(function(err){ 
-                HopScotch.Error.on(HopScotch.Search.defaults.error_div, 
-                                  'An error occured.')
+    var search_root = this;
+    
+    this.defaults = { version: 'v1', error_div: '#content' },
+    this.results = {},
+    // this.search = function(search_parameter_string){
+    //     $.getJSON('/api/' + this.defaults.version + 
+    //                 '/drink/?format=json&' + 
+    //                 search_parameter_string)
+    //         .success(function(data){ 
+    //             search_root.results = data;
+    //         })
+    //         .error(function(err){ 
+    //             HopScotch.Error.on(this.defaults.error_div, 
+    //                               'An error occured.')
+    //     });
+    // }
+    this.search = function(search_parameter_string) {
+        $.ajax({
+            type: 'GET',
+            url: '/api/' + this.defaults.version + '/drink/?format=json&' + search_parameter_string,
+            async: false,
+            error: function(data){
+                search_root.results = JSON.parse(data.responseText);
+                // if (err['status'] === status_ok) {
+                //     this.results = data;
+                // } else {
+                //     HopScotch.Error.on(HopScotch.Search.defaults.error_div, 
+                //                       'An error occured.')    
+                // }
+            },
+            dataType: "application/json",
+            processData:  false,
+            contentType: "application/json"
         });
     }
 }
 
-}).call(this);
-/*
+var Checkin = HopScotch.Checkin = function(){
+    /* Checkin Object
 
-Model out Drink classes
+    For checking in and creating drinks
 
-*/
+    Available Methods:
 
-var Drink = Backbone.Model.extend({
-    age: Number,
-    created_by_user: Number,
-    drink_id: String,
-    drink_type: String,
-    enjoying: Boolean,
-    id: String,
-    maker: String,
-    maker_type: String,
-    manu_desc: String,
-    name: String,
-    own: Boolean,
-    personal_desc: String,
-    rating: Number,
-    release_date: Date,
-    resource_uri: String,
+
+    :: send (resource, data, http type, status to be ok)
+    :: create (data)
+    :: checkin (data)
+    :: edit (data)
+    :: delete (data)
+    
+    Static:
+
+    :: defaults
+    
+    */
+    this.defaults = { version: 'v1' },
+    this.response = {},
+    this.send = function(resource, data_obj, http_type, status_ok) {
+        $.ajax({
+            type: http_type,
+            url: '/api/' + HopScotch.Checkin.defaults.version + 
+                 '/'+ resource +'/',
+            data: JSON.stringify(data_obj),
+            error: function(err){
+                if (err['status'] === status_ok) {
+                    HopScotch.Checkin.response = data;
+                } else {
+                    HopScotch.Error.on(HopScotch.Search.defaults.error_div, 
+                                      'An error occured.')    
+                }
+            },
+            dataType: "application/json",
+            processData:  false,
+            contentType: "application/json"
+        });
+    },
+    this.create = function(data) {
+
+        // Parse Age
+        data.age = parseInt(data.age);
+
+        // Parse Date
+        if (data.release_date === "") {
+            data.release_date = null    
+        } else {
+            data.release_date = new Date(data.release_date)    
+        }
+
+        HopScotch.Checkin.send('drink', data, 'POST', 201)
+    },
+    this.checkin = function(data) {
+        HopScotch.Checkin.send('checkin', data, 'POST', 201)
+    },
+    this.edit = function(data) {
+        HopScotch.Checkin.send('checkin', data, 'PATCH', 202)
+    },
+    this.delete = function(data) {
+        HopScotch.Checkin.send('checkin', data, 'DELETE', 204)
+    }
+}
+
+var Display = HopScotch.Display = {
+    /* Checkin Object
+
+    For manipulating the DOM and adding things to the page
+
+    Available Methods:
+    
+    Static:
+
+    :: defaults
+
+    */
+    to_html: function (tagname, value, classes){
+    // Prints item to HTML
+        return("<" + tagname + " class='" + classes + "'>" + value + "</" + tagname + ">")
+    }
+}
+
+var Drink = HopScotch.Drink = Backbone.Model.extend({
     schema: {
         name: { },
         maker: {},
@@ -121,307 +200,7 @@ var Drink = Backbone.Model.extend({
         rating: {type: "Radio", options: [1,2,3,4,5]},
         personal_desc: {title: "My description"}
     }
-})
-
-
-// function render_drink(){
-//     return('Success');
-// }
-
-// render_drink();
-
-function error(err) {
-    $('#content').prepend('<div class="alert alert-error">Something went wrong, here.</div>');
-}
-
-function drink_hover_on(obj) {
-    $(obj).append('<a class="drink-edit" href="javascript: void(0);"><span class="label label-info">Edit</span></a>');
-    
-    defaults = {
-        'personal_desc': $(obj).find('.personal_desc p').html(),
-        'rating': $(obj).find('.rating-star-container p').length
-    }
-
-    
-    var form = new Backbone.Form({
-        schema: {
-            rating: {type: "Radio", options: [1,2,3,4,5]},
-            personal_desc: {title: "My description"}
-        },
-        data: defaults,
-    }).render();
-    
-    $('#checkin_form').prepend(form.el);
-
-    $('.drink-edit').click(function(){
-        $('#editmodal').modal();
-        $('#editmodal .modal-body .bbf-form').remove();
-        $('#editmodal').css('display','block');
-        $('#editmodal .modal-body').append(form.el);
-        
-        $('#editmodal .btn.edit-delete').click(function(){
-            delete_checkin($(obj).attr('id'));
-            $('#editmodal').modal('hide');
-        });     
-        $('#editmodal .btn.edit-edit').click(function(){
-            data = {
-                'rating': parseInt($('#editmodal .bbf-form :checked').val()),
-                'personal_desc': $('#editmodal #personal_desc').val()
-            }
-            edit_checkin($(obj).attr('id'), data);
-        });     
-    });
-
-
-}
-function drink_hover_off(obj) {
-    $('.drink-edit').remove();
-}
-
-function drink_hover(){
-    $('.drink-checkin').hover(
-        function(){
-            drink_hover_on($(this));
-        },
-        function() {
-            drink_hover_off($(this));
-        }
-    );    
-}
-
-function delete_checkin(obj_id) {
-        $.ajax({
-        type: 'DELETE',
-        url: '/api/v1/checkin/' + obj_id,
-        error: function(err){
-            if (err['status'] === 204) {
-                $('#content').prepend('<div class="alert alert-success">Checkin removed.</div>');
-                location.reload(true);
-            } else {
-                error(err);    
-            }
-        },
-        dataType: "application/json",
-        processData:  false,
-        contentType: "application/json"
-    });
-}
-function edit_checkin(obj_id) {
-        $.ajax({
-        type: 'PATCH',
-        url: '/api/v1/checkin/' + obj_id,
-        data: JSON.stringify(data),
-        error: function(err){
-            if (err['status'] === 202) {
-                $('#content').prepend('<div class="alert alert-success">Checkin Updated.</div>');
-                location.reload(true);
-            } else {
-                error(err);    
-            }
-        },
-        dataType: "application/json",
-        processData:  false,
-        contentType: "application/json"
-    });
-}
-
-function create_drink(type_of_enjoyment) {
-    form.commit();
-    create_drink_obj = form.getValue();    
-    checkin_obj = {
-        'rating': create_drink_obj.rating,
-        'personal_desc': create_drink_obj.personal_desc,
-        'user_id': user_id,
-    }
-    create_drink_obj.created_by_user = user_id;
-    delete create_drink_obj.rating;
-    delete create_drink_obj.personal_desc;
-    create_drink_obj.age = parseInt(create_drink_obj.age);
-
-    if (create_drink_obj.release_date === "") {
-        create_drink_obj.release_date = null    
-    } else {
-        create_drink_obj.release_date = new Date(create_drink_obj.release_date)    
-    }
-    
-
-    $.ajax({
-        type: 'POST',
-        url: '/api/v1/drink/',
-        data: JSON.stringify(create_drink_obj),
-        error: function(err){
-            if (err['status'] === 201) {
-                response_json = JSON.parse(err['responseText']);
-                checkin_obj.drink_id = response_json.id
-                if (type_of_enjoyment === 'enjoying') {
-                    checkin_obj.enjoying = true;
-                } else if (type_of_enjoyment === 'own') {
-                    checkin_obj.own = true;
-                }
-                checkin_drink(checkin_obj)
-            } else {
-                error(err);    
-            }
-        },
-        dataType: "application/json",
-        processData:  false,
-        contentType: "application/json"
-    });
-}
-
-function checkin_drink(data){
-       $.ajax({
-        type: 'POST',
-        url: '/api/v1/checkin/',
-        data: JSON.stringify(data),
-        dataType: "application/json",
-        processData:  false,
-        error: function(err){
-            if (err['status'] === 201) {
-                window.location.href = "/user/"+ username;
-
-            } else {
-                error(err);
-            }
-        },
-        contentType: "application/json"
-    }); 
-}
-
-function search_drinks() {
-    var search_params = $('#search input').val()
-    $.getJSON('/api/v1/drink/?format=json' + '&' + 'name__icontains=' + search_params)
-    .success(function(data){ search_results(data) });
-
-}
-function search_drinks_by_user(user_id, page) { 
-    $.getJSON('/api/v1/checkin/?format=json&user_id=' + user_id + '&' + page + '=true')
-        .success(function(data){ search_results_user(data, page) })
-        .error(function(err){ console.log(err); });
-}
-
-function pr(tagname, value, classes){
-    // Prints item to HTML
-    return("<" + tagname + " class='" + classes + "'>" + value + "</" + tagname + ">")
-}
-function pr_checkbox(label, bool) {
-    var checked = 'checked';
-    
-    if (bool !== true) {
-        checked = '';
-    }
-    return('<div class="control-group">' + 
-            '<label class="control-label" for="' + label + '"><strong>I ' + label + '</strong></label>' +
-            '<div class="controls">' +
-            '<input type="checkbox" disabled name="' + label + '" '+ checked + ' />' + 
-            '</div></div>')
-    
-}
-
-function search_results(data) {
-    $('.search_results').html('');
-    $.each(data['objects'],function(key, value){
-        html_list = [
-            '<div id="' +value['id']+ '" class="drink span4">',
-            pr('h2', value['name'],'drink-name'),
-            pr('p', value['maker'], 'drink-maker'),
-        ]
-        if (value["manu_desc"] !== null) {
-            html_list.push(pr('div class="manu_desc"', "<strong>Maker's description</strong>" + pr('p', value['manu_desc'])));
-        }
-        html = html_list.join("");
-        html += "</div>"
-        $('.search_results').append(html);
-        
-    })
-    $('.drink').click(function(){
-        checkin(this);
-    });
-    drink_hover();
-}
-
-function search_results_user(data, div) {
-    $('.search_results_' + div).html('');
-    $.each(data['objects'],function(key, value){
-        html_list = [
-            '<div id="' +value['id']+ '" class="drink drink-checkin span4">',
-            pr('h2', value['drink']['name'],'drink-name'),
-            pr('p', value['drink']['maker'], 'drink-maker'),
-        ]
-        html_list.push('<div class="rating-star-container">')
-        if (value['rating'] !== null) {
-            rating = parseInt(value['rating']);
-            _.each(_.range(rating), function(key) {
-                html_list.push(pr('p', '', 'rating-star'))
-            });
-            
-        }
-        html_list.push("</div>")
-        if (value["personal_desc"] !== null) {
-            html_list.push(pr('div  class="personal_desc"', "<strong>My notes</strong>" + pr('p', value['personal_desc'])));
-        }
-        if (value["drink"]["manu_desc"] !== null) {
-            html_list.push(pr('div class="manu_desc"', "<strong>Maker's description</strong>" + pr('p', value["drink"]['manu_desc'])));
-        }
-        html = html_list.join("");
-        html += "</div>"
-        $('.search_results_'+div).append(html);
-        drink_hover();
-    })
-}
-
-function checkin(obj) {
-    
-    function get_checkin_info() {
-        return({
-            'personal_desc': $('#tasting-notes').val(),
-            'rating': $('.rating-radio:checked').val()
-        })
-    }
-    function set_rating(value) {
-        $('.rating-radio[value="' + value + '"]').attr('checked',true);
-    }
-
-    checkin_obj = {
-        'drink_id': $(obj).attr('id'),
-        'user_id': user_id
-    }
-    console.log(obj)
-    $('.modal-header h3').html("Check in to " + $(obj).find('h2').html());
-    $('#tasting-notes').val($(obj).find('.personal_desc p').html());
-    set_rating($(obj).find('.rating').html())
-    $('#checkinmodal').css('display','block');
-    $('#checkinmodal').modal('show');
-    $('.btn-checkin').click(function(){
-        _.extend(checkin_obj, get_checkin_info());
-        _.extend(checkin_obj, { enjoying: true });
-        checkin_drink(checkin_obj);
-        $('#checkinmodal').modal('hide');
-    });
-    $('.btn-cabinet').click(function(){
-        _.extend(checkin_obj, get_checkin_info());
-        _.extend(checkin_obj, { own: true });
-        checkin_drink(checkin_obj);
-        $('#checkinmodal').modal('hide');
-    });
-
-}
-
-$('#checkinmodal').modal();
-$('#checkinmodal').modal('hide');
-
-// Buttons
-$('.creation-forms .btn-checkin').click(function(){
-    create_drink('enjoying');
-});
-$('.creation-forms .btn-cabinet').click(function(){
-    create_drink('own');
-});
-$('button#search').click(function(){
-    search_drinks();
-});
-$('#create-drink').click(function(){
-    window.location.href = "/create/";
 });
 
-//.call(this);
+}).call(this);
+
