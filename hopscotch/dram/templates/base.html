@@ -8,6 +8,12 @@
         {% endfor %}{% endif %}
 {% endblock stylesheets %}
 {% block extra_css %}
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+<!-- For iPhone: -->
+<link media="only screen and (max-device-width: 480px)" href="{{ static_url }}hopscotch/small.css" type= "text/css" rel="stylesheet">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="apple-touch-icon" href="/img/touch_icon.png">
+
 <link href='http://fonts.googleapis.com/css?family=Antic+Didone' rel='stylesheet' type='text/css'>
 <style type="text/css">
 #header {
@@ -43,14 +49,14 @@
             {% endif %}
         {% endblock %}
     </div>
-    
+
     <div id="content" class="span4">
         {% block content %}{% endblock %}
 
     </div>
     <div id="buttons">
         {% block buttons %}{% endblock %}
-        
+
     </div>
     <div id="footer">
         {% block footer %}{% endblock %}
@@ -58,14 +64,22 @@
     </div>
     <div class="bottom">
         {% if user.is_authenticated %}
-            <div class="actions">
-                <!-- <div class="action action-following"><a href="/user/{{user.username}}/following">Following</a></div> -->
+<!--             <div class="actions">
+                <!-- <div class="action action-following"><a href="/user/{{user.username}}/following">Following</a></div>
                 <div class="action action-enjoyed"><a href="/user/{{user.username}}/enjoyed">Enjoyed</a></div>
                 <div class="action action-checkin"><a href="/user/{{user.username}}/checkin/">Checkin</a></div>
                 <div class="action action-cellar"><a href="/user/{{user.username}}/cellar">Cellar</a></div>
                 <div class="action action-settings"><a href="/user/{{user.username}}/account">Settings</a></div>
 
             </div>
+ -->
+            <!-- <div class="img-nav"> -->
+                <a href="/user/{{user.username}}/checkin"><div class="img-container"><img src="{{ static_url }}images/arrow.svg" /></div></a>
+                <a href="/user/{{user.username}}/enjoyed"><div class="img-container action-enjoyed"><img src="{{ static_url }}images/beer.svg" /></div></a>
+                <a href="/user/{{user.username}}/cellar"><div class="img-container"><img src="{{ static_url }}images/bottle.svg" /></div></a>
+                <a href="/user/{{user.username}}/account"><div class="img-container"><img src="{{ static_url }}images/gears.svg" /></div></a>
+
+            <!-- </div> -->
         {% endif %}
     </div>
 </div>

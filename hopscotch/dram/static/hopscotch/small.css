@@ -1,0 +1,10 @@
+html { -webkit-text-size-adjust: none; }
+
+#header {
+display:none;
+}
+
+.header-section {
+    display:none;
+}
+

@@ -11,14 +11,14 @@
     $('#checkinmodal').modal('hide');
 
     $('button#search').click(function(){
-    
+
         search_value = $('#search').val()
-        var drink_search = new HopScotch.Search()       
+        var drink_search = new HopScotch.Search()
         drink_search.search('name__icontains=' + search_value)
         $('.search_results').html('');
         $.each(drink_search.results['objects'],function(key, value){
             html_list = [
-                '<div id="' +value['id']+ '" class="drink span4">',
+                '<div id="' +value['id']+ '" class="drink">',
                 HopScotch.Display.to_html('h2', value['name'],'drink-name'),
                 HopScotch.Display.to_html('p', value['maker'], 'drink-maker'),
             ]
@@ -28,7 +28,7 @@
             html = html_list.join("");
             html += "</div>"
             $('.search_results').append(html);
-            
+
         })
     });
     $('#create-drink').click(function(){
@@ -44,10 +44,13 @@
 
 <div id="search">
 <input type="text" class="input-medium search-query">
-<button type="submit" id="search" class="btn btn-cabinet">Search for drinks</button>
-<button type="submit" id="create-drink" class="btn btn-checkin">Create a drink.</button>
+<button type="submit" id="search" class="btn btn-cabinet"><p><span class="btn-big-text">Search</span> <span class="btn-small-text">for drinks</p></button>
+<!-- <button type="submit" id="create-drink" class="btn btn-checkin">Create a drink.</button> -->
 </div>
 <div class="search_results">
 
+</div>
+<div class="body-text">
+<p>Can't find your drink?  <a href="/create/">Create it.</a></p>
 </div>
 {% endblock %}
