@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}{% endblock %}
-{% block section_head %}settings{% endblock section_head %}
+{% block section_head %}account{% endblock section_head %}
+{% block action_account %}actions-active{% endblock %}
 {% block content %}
 <div class="row">
 	<h2>Welcome, {{ user.first_name}}</h2>
@@ -33,5 +34,17 @@
         </div>
         <button type="submit" class="btn submit">Update</button>
      </form>
+</div>
+
+<div class="credits">
+<p>Icons available from <a href="http://thenounproject.com">The Noun Project</a>:</p>
+<ul>
+<li><a href="http://thenounproject.com/noun/beer/#icon-No1591">Leigh Scholten, from The Noun Project</a></li>
+<li><a href="http://thenounproject.com/noun/bottle/#icon-No1731">Julia Soderberg, from The Noun Project</a></li>
+<li><a href="http://thenounproject.com/noun/gears/#icon-No2174">Dima Yagnyuk, from The Noun Project</a></li>
+<li><a href="http://thenounproject.com/noun/vote/#icon-No7236">Jens Windolf, the Noun Project</a></li>
+</ul>
+<p>Code for this site is available on <a href="https://github.com/jasonbartz/hopscotch">Github</a></p>
+
 </div>
 {% endblock %}

@@ -3,7 +3,6 @@
 {% block section_head %}me{% endblock section_head %}
 {% block action_js %}
 <script type="text/javascript">
-search_drinks_by_user("{{ user_id }}",'enjoying');
 search_drinks_by_user("{{ user_id }}",'own');
 
 </script>
@@ -13,17 +12,10 @@ search_drinks_by_user("{{ user_id }}",'own');
 {% include "includes/edit_modal.html" %}
 {% endif %}{% endblock %}
 {% block content %}
-<div class="span12">
-	<h2>Enjoyed</h2>
-	<div class="search_results_enjoying">
+<div class="row">
+	<div class="search_results">
 
 	</div>
 </div>
 
-<div class="span12">
-	<h2>Cellar</h2>
-	<div class="search_results_own">
-
-	</div>
-</div>
 {% endblock %}

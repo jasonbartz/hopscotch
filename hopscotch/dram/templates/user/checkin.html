@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block title %}Checkin | {% endblock %}
 {% block section_head %}checkin{% endblock section_head %}
+{% block action_checkin %}actions-active{% endblock %}
+
 {% block action_js %}
 {% if user.is_authenticated %}
     <script type="text/javascript">

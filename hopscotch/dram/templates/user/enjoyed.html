@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block title %}{% endblock %}
 {% block section_head %}enjoyed{% endblock section_head %}
+{% block action_enjoyed %}actions-active{% endblock %}
+
 {% block action_js %}
 <script type="text/javascript">
 search_drinks_by_user("{{ user_id }}", 'enjoying');

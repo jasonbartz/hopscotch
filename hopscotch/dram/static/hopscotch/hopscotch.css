@@ -44,11 +44,10 @@ a:active, a:hover {
 }
 .rating-star-container {
     position:absolute;
-    right:0;
+    right:20px;
     top:0;
     width:100px;
     height:20px;
-
 }
 .rating-star {
     background-repeat: no-repeat;
@@ -98,7 +97,6 @@ a:active, a:hover {
 
 .drink {
     background-color:rgba(55,75,33,.1);
-    padding:8px;
     position:relative;
     margin-bottom:10px;
     min-width:290px;
@@ -164,9 +162,11 @@ input[type="checkbox"] {
     margin:10px 0;
 }
 .personal_desc strong {
+    padding-left: 10px;
     color:rgb(86,111,50);
 }
 .manu_desc strong {
+    padding-left: 10px;
     color:rgb(86,111,50);
 }
 .hpsctch-font {
@@ -183,10 +183,12 @@ input[type="checkbox"] {
     left:0;
     right:0;
     bottom:0;
-    padding:2px;
-    background-color:#F2F6E6;
-    margin-bottom:-4px;
+    background-color:#566F32;
+    margin-bottom:-10px;
     width:100%;
+}
+.bottom a {
+    padding:10px 0;
 }
 .bottom a, .bottom a:link, .bottom a:visited {
     color:#F2F6E6;
@@ -195,13 +197,17 @@ input[type="checkbox"] {
 .bottom a:hover, .bottom a:active {
     color:#566F32;
     background:none;
-    background-color:#F2F6E6;
+    background-color:rgb(119,145,59);
     /*border: 1px solid #566F32;*/
 }
 .actions {
     width:480px;
     margin:0 auto;
     height:40px;
+}
+.actions-active {
+     background-color:rgb(119,145,59);
+
 }
 .actions a {
     display:block;
@@ -284,6 +290,13 @@ input[type="checkbox"] {
     float: left;
     font-size:160%;
 }
+.credits {
+    padding:0 10px 60px 10px;
+}
+.drink-maker {
+    padding-left:20px;
+}
+
 /* BOOTSTRAP OVERRIDES */
 
 .span4 {

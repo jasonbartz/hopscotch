@@ -64,20 +64,11 @@
     </div>
     <div class="bottom">
         {% if user.is_authenticated %}
-<!--             <div class="actions">
-                <!-- <div class="action action-following"><a href="/user/{{user.username}}/following">Following</a></div>
-                <div class="action action-enjoyed"><a href="/user/{{user.username}}/enjoyed">Enjoyed</a></div>
-                <div class="action action-checkin"><a href="/user/{{user.username}}/checkin/">Checkin</a></div>
-                <div class="action action-cellar"><a href="/user/{{user.username}}/cellar">Cellar</a></div>
-                <div class="action action-settings"><a href="/user/{{user.username}}/account">Settings</a></div>
 
-            </div>
- -->
-            <!-- <div class="img-nav"> -->
-                <a href="/user/{{user.username}}/checkin"><div class="img-container"><img src="{{ static_url }}images/arrow.svg" /></div></a>
-                <a href="/user/{{user.username}}/enjoyed"><div class="img-container action-enjoyed"><img src="{{ static_url }}images/beer.svg" /></div></a>
-                <a href="/user/{{user.username}}/cellar"><div class="img-container"><img src="{{ static_url }}images/bottle.svg" /></div></a>
-                <a href="/user/{{user.username}}/account"><div class="img-container"><img src="{{ static_url }}images/gears.svg" /></div></a>
+        <a class="{% block action_checkin %}{% endblock %}" href="/user/{{user.username}}/checkin"><div class="img-container"><img src="{{ static_url }}images/checkbox-light.svg" /></div></a>
+        <a class="{% block action_enjoyed %}{% endblock %}" href="/user/{{user.username}}/enjoyed"><div class="img-container action-enjoyed"><img src="{{ static_url }}images/beer-light.svg" /></div></a>
+        <a class="{% block action_cellar %}{% endblock %}" href="/user/{{user.username}}/cellar"><div class="img-container"><img src="{{ static_url }}images/bottle-light.svg" /></div></a>
+        <a class="{% block action_account %}{% endblock %}" href="/user/{{user.username}}/account"><div class="img-container"><img src="{{ static_url }}images/gears-light.svg" /></div></a>
 
             <!-- </div> -->
         {% endif %}
