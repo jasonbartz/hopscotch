@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Checkin | {% endblock %}
+{% block section_head %}checkin{% endblock section_head %}
+{% block action_checkin %}actions-active{% endblock %}
+
+{% block action_js %}
+{% if user.is_authenticated %}
+    <script type="text/javascript">
+    user_id = "{{ user.id }}";
+    username = "{{ user.username}}"
+
+    $('button#search-button').click(function(){
+
+        search_value = $('#search-form').val()
+        var drink_search = new HopScotch.Search()
+        drink_search.search('name__icontains=' + search_value, 'drink')
+        $('.search_results').html('');
+        $.each(drink_search.results['objects'],function(key, value){
+            html = _.template(tmpl_drink_search, value);
+            $('.search_results').append(html);
+        })
+    });
+    $('#create-drink').click(function(){
+        window.location.href = "/create/";
+    });
+    </script>
+{% endif %}
+{% endblock %}
+{% block content %}
+
+<div id="search">
+<input type="text" id="search-form" class="input-medium search-query">
+<button type="submit" id="search-button" class="btn btn-cabinet"><p><span class="btn-big-text">Search</span> <span class="btn-small-text">for drinks</p></button>
+</div>
+<div class="search_results">
+
+</div>
+<div class="body-text">
+<p>Can't find your drink?  <a href="/create/">Create it.</a></p>
+</div>
+{% endblock %}

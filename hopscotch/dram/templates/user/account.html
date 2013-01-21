@@ -5,6 +5,7 @@
 {% block content %}
 <div class="row">
 	<h2>Welcome, {{ user.first_name}}</h2>
+    <p><a href="/logout/">Logout</a></p>
 	<p><a href="/change_password/">Change Password</a></p>
 	<p><strong>Note:</strong> If you'd like to change your username (<strong>{{ user.username }}</strong>), contact <a href="mailto:accounts@hpsct.ch">accounts@hpsct.ch</a>)
 </div>

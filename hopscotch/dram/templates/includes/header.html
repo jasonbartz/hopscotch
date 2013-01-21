@@ -1,0 +1,7 @@
+{% block header %}
+    {% if user.is_authenticated %}
+        <p> Welcome, {{ user.first_name }}.  <a href="/logout">Logout</a> | <a href="/change_password">Change password</a></p>
+    {% else %}
+        <a href="/login">Login</a>
+    {% endif %}
+{% endblock %}

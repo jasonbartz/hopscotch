@@ -30,7 +30,8 @@
 <body>
 {% if user.is_authenticated %}
 
-<div class="beta-header alert">
+<div class="beta-header alert alert-beta">
+    <div class="beta-close"><a href="#">close [x]</a></div>
 
     <p>Welcome to the hpsct.ch beta</p>
     <p class="feedback">Send feedback to <a href="mailto:accounts@hpsct.ch">accounts@hpsct.ch</a> or <a href="http://twitter.com/hpsct_ch" target="_blank">twitter.com/hpsct_ch</a></p>
@@ -41,13 +42,7 @@
             <div class="header-section hpsctch-font">
                 <span>{% block section_head %}{% endblock section_head %}</span>
             </div>
-        {% block header %}
-            {% if user.is_authenticated %}
-                <p> Welcome, {{ user.first_name }}.  <a href="/logout">Logout</a> | <a href="/change_password">Change password</a></p>
-            {% else %}
-                <a href="/login">Login</a>
-            {% endif %}
-        {% endblock %}
+
     </div>
 
     <div id="content" class="span4">
@@ -65,7 +60,7 @@
     <div class="bottom">
         {% if user.is_authenticated %}
 
-        <a class="{% block action_checkin %}{% endblock %}" href="/user/{{user.username}}/checkin"><div class="img-container"><img src="{{ static_url }}images/checkbox-light.svg" /></div></a>
+        <a class="{% block action_checkin %}{% endblock %}" href="/search"><div class="img-container"><img src="{{ static_url }}images/checkbox-light.svg" /></div></a>
         <a class="{% block action_enjoyed %}{% endblock %}" href="/user/{{user.username}}/enjoyed"><div class="img-container action-enjoyed"><img src="{{ static_url }}images/beer-light.svg" /></div></a>
         <a class="{% block action_cellar %}{% endblock %}" href="/user/{{user.username}}/cellar"><div class="img-container"><img src="{{ static_url }}images/bottle-light.svg" /></div></a>
         <a class="{% block action_account %}{% endblock %}" href="/user/{{user.username}}/account"><div class="img-container"><img src="{{ static_url }}images/gears-light.svg" /></div></a>

@@ -1,5 +1,7 @@
+-e git+https://github.com/washingtonpost/django-mongolier.git#egg=mongolier
+
 # Django and Django Libraries
-django
+#django
 django-tastypie
 django-tastypie-mongoengine
 
@@ -8,6 +10,5 @@ pymongo
 mongoengine
 
 # utility libraries
-yolk
-ipython==0.11
+ipython
 django-debug-toolbar

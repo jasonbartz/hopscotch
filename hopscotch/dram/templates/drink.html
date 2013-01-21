@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block title %}Checkin | {% endblock %}
+{% block section_head %}checkin{% endblock section_head %}
+{% block action_checkin %}actions-active{% endblock %}
+{% block action_js %}
+{% if user.is_authenticated %}
+<script type="text/javascript">
+
+function complete(obj) {
+    if (_.contains(_.range(200,300), obj.response_code)){
+        $('#content').prepend('<p class="alert alert-success">Checked in!</p>');
+    } else if (obj.response_code === 400){
+        $('#content').prepend('<p class="alert alert-error">' + obj.response_message + '</p>');
+    }
+    // Disable the active areas
+    _.each(['input', 'textarea'], function(key) {
+        $(key).attr('disabled','disabled');
+    });
+    // Show everything except the search
+    _.each(['.row', '.drink-description'], function(key) {
+        $(key).show();
+    });
+}
+
+var checkin_drink = new HopScotch.Checkin();
+checkin_drink.complete = complete;
+
+$('#checkin').click(function(){
+    var form = $('.form-horizontal').serializeArray();
+    data = {
+        user_id: "{{ user.id }}",
+        drink_id: "{{ drink.id }}",
+    }
+    _.each(form, function(form_object){
+        if (form_object.value === "true") {
+            form_object.value = true;
+        } else if (form_object.value === "false"){
+            form_object.value = false;
+        }
+        data[form_object.name] = form_object.value;
+    });
+    _.each(['.row', '.drink-description'], function(key) {
+        $(key).hide();
+    });
+    $('#search').html('')
+    checkin_drink.checkin(data);
+
+});
+
+
+</script>
+{% endif %}
+{% endblock %}
+{% block content %}
+<div class="body-text drink-description">
+<h1>{{ drink.name }}</h1>
+<h3>Made by {{ drink.maker }}</h3>
+
+{% if drink.age %}
+<p>{{ drink.age }} years old</p>
+{% endif %}
+
+{% if drink.release_date %}
+<p>Released on {{ drink.release_date }}</p>
+{% endif %}
+
+{% if drink.manu_desc %}
+<h3>Maker's description</h3>
+<p>{{ drink.manu_desc }}</p>
+{% endif %}
+
+</div>
+{% if user.is_authenticated %}
+<div class="row">
+    <form class="form-horizontal" id="checkin-drink">
+    <fieldset>
+        <div class="control-group">
+        <label class="control-label" for="checkin"><strong>Tasting notes</strong></label>
+            <div class="controls">
+                <textarea rows="3" name="personal_desc" id="tasting-notes"></textarea>
+            </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label" for="checkin"><strong>Rating</strong></label>
+            <div class="controls">
+                <input type="radio" value="1" name="rating" class="rating-radio" />
+                <input type="radio" value="2" name="rating" class="rating-radio" />
+                <input type="radio" value="3" name="rating" class="rating-radio" />
+                <input type="radio" value="4" name="rating" class="rating-radio" />
+                <input type="radio" value="5" name="rating" class="rating-radio" />
+
+            </div>
+        </div>
+        <label class="checkbox inline" for="checkin"><input type="checkbox" value="true" name="enjoying" />Enjoying</label>
+        <label class="checkbox inline" for="checkin"><input type="checkbox" value="true" name="own" />In the cellar</label>
+
+    </fieldset>
+
+    </form>
+</div>
+
+<div id="search">
+<button type="submit" id="checkin" class="btn btn-cabinet"><p><span class="btn-big-text">Checkin</span> <span class="btn-small-text">to this drink</p></button>
+</div>
+
+{% endif %}
+
+{% endblock %}

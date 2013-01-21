@@ -3,20 +3,23 @@
 {% block section_head %}cellar{% endblock section_head %}
 {% block action_cellar %}actions-active{% endblock %}
 
+
 {% block action_js %}
-	<script type="text/javascript">
-	search_drinks_by_user("{{ user_id }}", 'own');
-	</script>
-{% endblock %}
-{% block modal %}
-{% if user.is_authenticated %}
-{% include "includes/edit_modal.html" %}
-{% endif %}
+<script type="text/javascript">
+var checkins = new HopScotch.Search()
+checkins.search('user__id={{user_id}}&own=true', 'checkin');
+$.each(checkins.results['objects'],function(key, value){
+    html = _.template(tmpl_drink_user, value);
+    $('.search_results').append(html);
+})
+
+
+</script>
 {% endblock %}
 {% block content %}
 
 
-<div class="search_results_own">
+<div class="search_results">
 
 </div>
 {% endblock %}

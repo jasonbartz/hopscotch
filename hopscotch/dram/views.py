@@ -1,14 +1,9 @@
-import json
-
 from django.views.generic import TemplateView
-from django.db import settings
-from django.views.decorators.csrf import csrf_protect
 from django.shortcuts import render_to_response, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.core.mail import send_mail
 from django.core.validators import validate_email, ValidationError
 from django.template import RequestContext
-from mongoengine import connect
 from django.http import Http404
 
 from hopscotch.dram.documents import Drink, User
@@ -17,9 +12,10 @@ from hopscotch.dram.documents import Drink, User
 class BaseView(TemplateView):
     pass
 
+
 class Home(BaseView):
     template_name = 'home.html'
-    
+
     def render_to_response(self, context, **response_kwargs):
         """
         Returns a response with a template rendered with the given context.
@@ -29,22 +25,25 @@ class Home(BaseView):
 
         return(super(Home, self).render_to_response(context, **response_kwargs))
 
+
 class Public(BaseView):
     template_name = 'public.html'
 
+
 class Logout(BaseView):
     template_name = 'login.html'
-    
+
     def render_to_response(self, context, **response_kwargs):
         logout(self.request)
         return(super(Logout, self).render_to_response(context, **response_kwargs))
+
 
 class Login(BaseView):
     template_name = 'login.html'
 
     def post(self, request, *args, **kwargs):
         return(self.render_to_response({}, **kwargs))
-        
+
     def render_to_response(self, context, **response_kwargs):
         """
         Returns a response with a template rendered with the given context.
@@ -52,12 +51,12 @@ class Login(BaseView):
         if self.request.user.is_authenticated():
 
             return(redirect(to='/user/%s/' % self.request.user.username))
-        
+
         if self.request.method in ('POST', 'PUT'):
-            
+
             request_dict = self.request.POST.copy()
             username = request_dict.get('username')
-            password =  request_dict.get('password')
+            password = request_dict.get('password')
 
             user = authenticate(username=username, password=password)
 
@@ -68,18 +67,19 @@ class Login(BaseView):
                     return(redirect(to='/user/%s/' % username))
 
                 else:
-                    pass# Return a 'disabled account' error message
+                    pass  # Return a 'disabled account' error message
             else:
-                pass# Return an 'invalid login' error message.
+                pass  # Return an 'invalid login' error message.
 
-        
         return(super(Login, self).render_to_response(context, **response_kwargs))
+
 
 class Create(BaseView):
     template_name = 'create.html'
 
+
 class UserView(BaseView):
-    
+
     def get_context_data(self, **kwargs):
         if kwargs.get('username'):
             try:
@@ -89,28 +89,48 @@ class UserView(BaseView):
                 raise(Http404())
         return(kwargs)
 
+
 class Checkin(BaseView):
     template_name = 'user/checkin.html'
+
+
+class Search(BaseView):
+    template_name = 'search.html'
+
+
+class DrinkView(BaseView):
+    template_name = 'drink.html'
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        if 'id' in kwargs:
+            context['drink'] = Drink.objects.get(id=kwargs['id'])
+        return(context)
+
 
 class Cellar(UserView):
     template_name = 'user/cellar.html'
 
+
 class Enjoying(UserView):
     template_name = 'user/enjoyed.html'
+
 
 class Following(UserView):
     template_name = 'user/following.html'
 
+
 class UserHome(UserView):
     template_name = 'user/home.html'
 
+
 class Account(UserView):
     template_name = 'user/account.html'
-    
+
     def post(self, request, *args, **kwargs):
         return(self.render_to_response(self.get_context_data(**kwargs)))
 
-    def render_to_response(self, context, **response_kwargs):    
+    def render_to_response(self, context, **response_kwargs):
         if self.request.user.is_authenticated():
             if self.request.method.upper() in ('POST',):
                 self.request.user.first_name = self.request.POST['first_name']
@@ -127,7 +147,6 @@ class Account(UserView):
 class UserPass(UserView):
     template_name = 'user/pass.html'
 
-
     def post(self, request, *args, **kwargs):
         return(self.render_to_response(self.get_context_data(**kwargs), **kwargs))
 
@@ -143,7 +162,8 @@ class UserPass(UserView):
             raise(Http404())
 
         return(super(UserPass, self).render_to_response(context, **response_kwargs))
-     
+
+
 class Beta(BaseView):
     """
     A master view class to handle Beta reponses.
@@ -163,22 +183,21 @@ class Beta(BaseView):
         if self.request.user.is_authenticated():
 
             return(redirect(to='/user/%s/' % self.request.user.username))
-        
+
         if self.request.method.upper() in ('POST', 'PUT'):
             try:
                 validate_email(self.request.POST['email'])
-            except ValidationError, e:
+            except ValidationError:
                 return render_to_response('home.html',
-                                         {'error':'Please enter a valid email address'},
-                                         context_instance = RequestContext(self.request))
-                
-            send_mail('[Beta Sign up]', 
+                                         {'error': 'Please enter a valid email address'},
+                                         context_instance=RequestContext(self.request))
+
+            send_mail('[Beta Sign up]',
                         'Beta invite request from %s' % self.request.POST['email'],
                         '%s' % self.request.POST['email'],
-                        ['accounts@hpsct.ch'], 
+                        ['accounts@hpsct.ch'],
                         fail_silently=False)
             return(super(Beta, self).render_to_response(context, **response_kwargs))
-        
+
         else:
             return(redirect(to='/'))
-   
