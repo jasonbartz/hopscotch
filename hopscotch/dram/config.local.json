@@ -1,6 +1,6 @@
 {
     "js": [
-        "jquery/jquery-1.7.1.min.js",
+        "jquery/jquery-2.0.3.min.js",
         "zepto/zepto.min.js",
         "underscore/underscore.min.js",
         "json2.js",

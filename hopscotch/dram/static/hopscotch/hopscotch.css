@@ -105,33 +105,33 @@ a:active, a:hover {
     padding: 0 8px;
 }
 .btn-checkin {
-    background-color: #77913B;
+/*    background-color: #77913B;
     background-image: -webkit-linear-gradient(top, #77913B, #9FB65B);
     background-repeat: repeat-x;
     border-color: #F89406 #F89406 #AD6704;
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-    color:#fff;
+*/    color:#fff;
 }
 .btn-checkin:hover {
-    background-color: #9FB65B;
+/*    background-color: #9FB65B;
     background-image: -webkit-linear-gradient(top, #9FB65B, #BFD484);
     background-repeat: repeat-x;
     border-color: #F89406 #F89406 #AD6704;
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-    color:#fff;
+*/    color:#fff;
 }
 .btn-cabinet {
-    background-color:rgb(86,111,50);
+  /*  background-color:rgb(86,111,50);
     background-image: -webkit-linear-gradient(top, #566F32, #374B21);
     background-repeat: repeat-x;
-    color:#fff;
+*/    color:#fff;
 }
 .btn-cabinet:hover {
-    background-color:rgb(86,111,50);
+/*    background-color:rgb(86,111,50);
     background-image: -webkit-linear-gradient(top, #374B21, #566F32);
     background-repeat: repeat-x;
     border-color: #F89406 #F89406 #AD6704;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);*/
     filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
     color:#fff;
 }
