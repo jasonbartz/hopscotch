@@ -3,12 +3,9 @@ django
 django-tastypie
 django-tastypie-mongoengine
 gunicorn
-
-# mongo libraries
-pymongo
+mimeparse
 mongoengine
-
-# utility libraries
-yolk
-ipython==0.11
-django-debug-toolbar
+pymongo
+#yolk
+#ipython==0.11
+#django-debug-toolbar
