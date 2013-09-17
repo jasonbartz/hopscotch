@@ -27,7 +27,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 	'django.contrib.auth.context_processors.auth',
 
 )
-DEBUG = True
+DEBUG = False
 INTERNAL_IPS = ('127.0.0.1',)
 
 DEBUG_TOOLBAR_CONFIG = {
@@ -51,4 +51,4 @@ AUTHENTICATION_BACKENDS = (
     'mongoengine.django.auth.MongoEngineBackend',
 )
 
-CONFIG_JSON = 'config.local.json'
+CONFIG_JSON = 'config.json'
