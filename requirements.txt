@@ -2,6 +2,7 @@
 django
 django-tastypie
 django-tastypie-mongoengine
+gunicorn
 
 # mongo libraries
 pymongo
