@@ -5,13 +5,14 @@
         "json2.js",
         "backbone-min.js",
         "backbone-forms.js",
-        "bootstrap.min.js"
-        "hopscotch/hopscotch.js"
+        "bootstrap.min.js",
+        "hopscotch.js"
     ],
     "css": [
         "bootstrap.min.css",
-        "bootstrap-responsive.min.css"
+        "bootstrap-responsive.min.css",
+        "hopscotch.css"
     ],
- 
+
     "static_url": "http://c341323.r23.cf1.rackcdn.com/"
 }
