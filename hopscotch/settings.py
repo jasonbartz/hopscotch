@@ -42,8 +42,10 @@ INSTALLED_APPS = (
 	'hopscotch.dram',
 	'debug_toolbar',
 )
+
+ALLOWED_HOSTS = ["localhost", ".hpsct.ch", ".herokuapp.com"]
 # MongoEngne
-connect('hopscotch')
+connect('hopscotch', host="mongodb://hpsctch:hpsctch@ds045608.mongolab.com:45608/heroku_app18010045")
 
 AUTHENTICATION_BACKENDS = (
     'mongoengine.django.auth.MongoEngineBackend',
